@@ -5,10 +5,8 @@ import DateRangePicker from './DateRangePicker';
 import { DateRange } from "react-day-picker"
 import TimePicker from '@/utils/TimePicker';
 
-const OneWayTripFilter = () => {
+const OneWayTripFilter = ({filter , onChange} : any ) => {
 
-  const [from, setFrom] = useState("Mumbai")
-  const [to, setTo] = useState("Banglore");
   const [isFromOpen, setIsFromOpen] = useState(false)
   const [isToOpen, setIsToOpen] = useState(false)
   const [returnOpen, setReturnOpen] = useState(false)
@@ -34,7 +32,7 @@ const OneWayTripFilter = () => {
             onClick={() => setIsFromOpen(true)}
           >
             <p className="text-sm text-slate-500">From</p>
-            <h2 className="text-2xl font-bold text-slate-900">{from}</h2>
+            <h2 className="text-2xl font-bold text-slate-900">{filter.from}</h2>
           </div>
 
           {/* DROPDOWN (separate) */}
@@ -42,7 +40,8 @@ const OneWayTripFilter = () => {
           <CityDropdown
             open={isFromOpen}
             onClose={() => setIsFromOpen(false)}
-            onSelect={setFrom}
+            onSelect={onChange}
+            filter = "from"
           />
 
         </div>
@@ -62,7 +61,7 @@ const OneWayTripFilter = () => {
             onClick={() => setIsToOpen(true)}
           >
             <p className="text-sm text-slate-500">From</p>
-            <h2 className="text-2xl font-bold text-slate-900">{to}</h2>
+            <h2 className="text-2xl font-bold text-slate-900">{filter.to}</h2>
           </div>
 
           {/* DROPDOWN (separate) */}
@@ -70,7 +69,8 @@ const OneWayTripFilter = () => {
           <CityDropdown
             open={isToOpen}
             onClose={() => setIsToOpen(false)}
-            onSelect={setTo}
+            onSelect={onChange}
+            filter = "to"
           />
         </div>
 

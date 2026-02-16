@@ -14,7 +14,7 @@ const tripTypes = [
 ]
 
 
-export default function HeroSearchSection() {
+export default function HeroSearchSection({filter , onChange} : any) {
 
     const [tripType, setTripType] = useState("oneway")
     const [open, setOpen] = useState(false);
@@ -35,7 +35,7 @@ export default function HeroSearchSection() {
                             name="tripType"
                             value={type.id}
                             checked={tripType === type.id}
-                            onChange={() => setTripType(type.id)}
+                            onChange={() => onChange("type" , type.id)}
                             className="hidden"
                         />
 
@@ -69,7 +69,7 @@ export default function HeroSearchSection() {
             </div>
          
 
-                {tripType === "oneway" && <OneWayTripFilter />}
+                {tripType === "oneway" && <OneWayTripFilter filter = {filter} onChange = {onChange}/>}
                 {tripType === "round" && <RoundWayTripFilter />}
                 {tripType === "airport" && <AirportTripFilter />}
                 {tripType === "hourly" && <HourlyTripFilter />}

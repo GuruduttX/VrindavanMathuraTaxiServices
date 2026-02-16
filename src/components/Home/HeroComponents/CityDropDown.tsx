@@ -19,10 +19,16 @@ const POPULAR_CITIES = [
 interface CityDropdownProps {
   open: boolean
   onClose: () => void
-  onSelect: (city: string) => void
+  onSelect: (type: string, city: string) => void
+  filter: string
 }
 
-const CityDropdown = ({ open, onClose, onSelect }: CityDropdownProps) => {
+const CityDropdown = ({
+  open,
+  onClose,
+  onSelect,
+  filter,
+}: CityDropdownProps) => {
   const [query, setQuery] = useState("")
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -76,12 +82,13 @@ const CityDropdown = ({ open, onClose, onSelect }: CityDropdownProps) => {
             <p className="px-3 py-1 text-xs font-semibold text-gray-400 uppercase">
               Recent Searches
             </p>
+
             {RECENT_CITIES.map(city => (
               <CityItem
                 key={city}
                 city={city}
                 onClick={() => {
-                  onSelect(city)
+                  onSelect(filter, city)
                   onClose()
                 }}
               />
@@ -98,7 +105,7 @@ const CityDropdown = ({ open, onClose, onSelect }: CityDropdownProps) => {
             key={city}
             city={city}
             onClick={() => {
-              onSelect(city)
+              onSelect(filter, city)
               onClose()
             }}
           />
@@ -109,6 +116,10 @@ const CityDropdown = ({ open, onClose, onSelect }: CityDropdownProps) => {
 }
 
 export default CityDropdown
+
+// ======================
+// City Item Component
+// ======================
 
 const CityItem = ({
   city,
