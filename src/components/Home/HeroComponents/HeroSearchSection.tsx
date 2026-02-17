@@ -29,7 +29,7 @@ export default function HeroSearchSection({ filter, onChange }: any) {
 
                 {tripTypes.map((type) => (
 
-                    <label className="flex items-center gap-3 cursor-pointer">
+                    <label className="flex items-center gap-3 cursor-pointer" key={type.id}>
                         <input
                             type="radio"
                             name="tripType"

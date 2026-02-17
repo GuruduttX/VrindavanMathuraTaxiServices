@@ -5,21 +5,23 @@ import DateRangePicker from './DateRangePicker';
 import { DateRange } from "react-day-picker"
 import TimePicker from '@/utils/TimePicker';
 
-const RoundWayTripFilter = ({filter , onChange} : any ) => {
+const RoundWayTripFilter = ({ filter, onChange }: any) => {
 
   const [isFromOpen, setIsFromOpen] = useState(false)
   const [isToOpen, setIsToOpen] = useState(false)
   const [returnOpen, setReturnOpen] = useState(false)
-  const [returnRange, setReturnRange] = useState<DateRange | undefined>()
+  const [departureOpen, setDepartureOpen] = useState(false);
   const [pickupOpen, setPickupOpen] = useState(false);
   const pickupRef = useRef<HTMLDivElement>(null)
   const returnRef = useRef<HTMLDivElement>(null);
+  const departureRef = useRef<HTMLDivElement>(null);
 
 
   const handleSwap = () => {
     const temp = filter.from;
     onChange("from", filter.to);
     onChange("to", temp);
+
   }
 
 
@@ -45,7 +47,7 @@ const RoundWayTripFilter = ({filter , onChange} : any ) => {
             open={isFromOpen}
             onClose={() => setIsFromOpen(false)}
             onSelect={onChange}
-            filter = "from"
+            filter="from"
           />
 
         </div>
@@ -74,23 +76,41 @@ const RoundWayTripFilter = ({filter , onChange} : any ) => {
             open={isToOpen}
             onClose={() => setIsToOpen(false)}
             onSelect={onChange}
-            filter = "to"
+            filter="to"
           />
         </div>
 
         {/* DEPARTURE */}
-        <div className="col-span-2 p-5 bg-sky-50 rounded-2xl border-l-2 border-sky-200 ml-3 m-2">
-          <div className="flex items-center gap-1 text-sm text-slate-500">
-            Departure <ChevronDown className="w-4 h-4" />
+        <div className="col-span-2 relative cursor-pointer">
+
+          {/* CLICK WRAPPER (invisible) */}
+          <div
+            ref={departureRef}
+            onClick={() => setDepartureOpen(true)}
+          >
+            <div className="p-5 bg-sky-50 rounded-2xl  border-l-2 border-sky-200 m-2">
+              <div className="flex items-center gap-1 text-sm text-slate-500">
+                Departure <ChevronDown className="w-4 h-4" />
+              </div>
+              <h2 className="text-3xl font-bold">
+                <span className="text-xl font-bold">{filter.departure}</span>
+              </h2>
+              
+            </div>
           </div>
-          <h2 className="text-2xl font-bold">
-             <span className="text-base font-medium">{filter.departure}</span>
-          </h2>
-          <p className="text-sm text-slate-500">Saturday</p>
+
+          {/* DATE RANGE PICKER */}
+          <DateRangePicker
+            open={departureOpen}
+            onChange={onChange}
+            onClose={() => setDepartureOpen(false)}
+            triggerRef={returnRef}
+            type="departure"
+          />
         </div>
 
         {/* RETURN */}
-        <div className="col-span-2 relative">
+        <div className="col-span-2 relative cursor-pointer">
 
           {/* CLICK WRAPPER (invisible) */}
           <div
@@ -102,26 +122,20 @@ const RoundWayTripFilter = ({filter , onChange} : any ) => {
                 Return <ChevronDown className="w-4 h-4" />
               </div>
               <h2 className="text-2xl font-bold">
-                <span className="text-base font-medium">{filter.return}</span>
+                <span className="text-xl font-bold">{filter.return}</span>
               </h2>
-              <p className="text-sm text-slate-500">Saturday</p>
+              
             </div>
           </div>
 
           {/* DATE RANGE PICKER */}
           <DateRangePicker
             open={returnOpen}
-            value={returnRange}
-            onChange={(range) => {
-              onChange("return", range?.from)
-              if (range?.from && range?.to) {
-                setReturnOpen(false)
-              }
-            }}
+            onChange={onChange}
             onClose={() => setReturnOpen(false)}
             triggerRef={returnRef}
+            type="return"
           />
-
         </div>
 
 
@@ -136,14 +150,14 @@ const RoundWayTripFilter = ({filter , onChange} : any ) => {
                 Pickup-Time <ChevronDown className="w-4 h-4" />
               </div>
               <h2 className="text-xl font-bold">{filter.pickup}</h2>
-              <p className="text-sm text-slate-500">AM</p>
+              
             </div>
           </div>
 
           <TimePicker
             open={pickupOpen}
             triggerRef={pickupRef}
-            onApply={(time) => onChange("pickup",time)}
+            onApply={(time) => onChange("pickup", time)}
             onClose={() => setPickupOpen(false)}
           />
         </div>
@@ -154,8 +168,8 @@ const RoundWayTripFilter = ({filter , onChange} : any ) => {
           <div className="flex items-center gap-1 text-sm text-slate-500">
             Drop Time <ChevronDown className="w-4 h-4" />
           </div>
-          <h2 className="text-xl font-bold">09:45</h2>
-          <p className="text-sm text-slate-500">PM</p>
+          <h2 className="text-xl font-bold">09:45 PM</h2>
+          
         </div>
 
       </div>

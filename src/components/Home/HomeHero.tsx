@@ -14,16 +14,16 @@ export default function HomeHero() {
     const [search, setSearch] = useState({
         from: "Mumbai",
         to: "Pune",
-        departure: "",
-        return: "",
-        pickup: "",
+        departure: new Date(Date.now()).toLocaleDateString(),
+        return: new Date(Date.now()).toLocaleDateString(),
+        pickup: "10:00 AM",
         drop: "",
         type: ""
     });
 
-    const updateSearch = (field : string , value : string) => {
+    const updateSearch = (field: string, value: string) => {
         setSearch((prev) => {
-            return {...prev , [field] : value}
+            return { ...prev, [field]: value }
         })
     }
 
@@ -40,7 +40,7 @@ export default function HomeHero() {
 
                 <HeroCTA />
 
-                <HeroSearchSection filter = {search} onChange = {updateSearch}/>
+                <HeroSearchSection filter={search} onChange={updateSearch} />
 
 
                 <div className="absolute bottom-10 left-12 md:left-130 lg:left-130 flex justify-center mt-8" onClick={handleSearch}>

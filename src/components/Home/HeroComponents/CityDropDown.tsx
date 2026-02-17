@@ -76,7 +76,7 @@ const CityDropdown = ({
       </div>
 
       {/* List */}
-      <div className="max-h-72 overflow-y-auto p-2">
+      <div className="max-h-72 overflow-y-auto p-2 no-scrollbar">
         {query === "" && (
           <>
             <p className="px-3 py-1 text-xs font-semibold text-gray-400 uppercase">
