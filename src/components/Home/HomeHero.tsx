@@ -1,24 +1,49 @@
 'use client'
 
+import { useState } from 'react';
 import HeroCTA from './HeroComponents/HeroCTA'
 import HeroSearchSection from './HeroComponents/HeroSearchSection'
+import { useRouter } from 'next/navigation';
 
 
 
 export default function HomeHero() {
-    
+
+    const router = useRouter();
+
+    const [search, setSearch] = useState({
+        from: "Mumbai",
+        to: "Pune",
+        departure: "",
+        return: "",
+        pickup: "",
+        drop: "",
+        type: ""
+    });
+
+    const updateSearch = (field : string , value : string) => {
+        setSearch((prev) => {
+            return {...prev , [field] : value}
+        })
+    }
+
+
+    const handleSearch = () => {
+        router.push(`/cabs/listing?from=${search.from}&to=${search.to}&departure=${search.departure}&return=${search.return}&pickup=${search.pickup}&drop=${search.drop}&type=${search.type}`)
+    }
+
     return (
 
         <section className="relative w-full bg-gradient-to-b from-sky-500 to-sky-600 pt-25">
-            
+
             <div className="relative z-10 max-w-7xl mx-auto px-4 py-20">
 
-                <HeroCTA/>
+                <HeroCTA />
 
-                <HeroSearchSection/>
+                <HeroSearchSection filter = {search} onChange = {updateSearch}/>
 
-                
-                <div className="absolute bottom-10 left-12 md:left-130 lg:left-130 flex justify-center mt-8">
+
+                <div className="absolute bottom-10 left-12 md:left-130 lg:left-130 flex justify-center mt-8" onClick={handleSearch}>
                     <button className="bg-blue-700 hover:bg-blue-900 text-white px-24 py-4 rounded-full text-lg font-semibold shadow-xl cursor-pointer">
                         SEARCH
                     </button>

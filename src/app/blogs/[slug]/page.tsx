@@ -18,12 +18,7 @@ const page = async ({ params }: { params: Promise<{ slug: string , duration : st
 
 return (
   <>
-   
-      <Navbar />
 
-     
-
-      {/* HERO */}
       <HeroSection/>
       
 
