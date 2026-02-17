@@ -7,12 +7,12 @@ export default function BlogHero() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="relative w-full px-6 py-12 lg:px-16 mt-24 bg-red-900">
+    <section className="relative w-full px-6 py-12 lg:px-16 ">
 
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-100 via-blue-50 to-white" />
 
       {/* ================= Breadcrumbs ================= */}
-      <nav className="text-sm text-blue-500 mb-6 flex flex-wrap ml-18 ">
+      <nav className="text-sm text-blue-500 mb-6 flex flex-wrap ml-18 mt-16 ">
         <Link href="/" className="hover:text-blue-700 transition">
           Home
         </Link>
@@ -54,7 +54,7 @@ export default function BlogHero() {
 
         {/* Left: Blog Title */}
         <div className="flex-1 min-w-0">
-          <h1 className="text-3xl lg:text-4xl font-extrabold leading-tight bg-fuchsia-500 text-red-800">
+          <h1 className="text-3xl lg:text-4xl font-extrabold leading-tight ">
             Mathura Taxi Service – Complete Travel Guide
           </h1>
 
