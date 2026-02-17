@@ -1,6 +1,5 @@
 "use client";
 
-import { Star } from "lucide-react";
 import { FloatingInput } from "@/utils/FloatingInput";
 import { FloatingTextarea } from "@/utils/FloatingTextarea";
 import { useState } from "react";
@@ -8,7 +7,6 @@ import { useState } from "react";
 export default function SideForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-
 
   const [form, setForm] = useState({
     name: "",
@@ -18,8 +16,6 @@ export default function SideForm() {
     travellers: "",
     message: "",
   });
-
-  const WHATSAPP = "7302265809";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,19 +33,20 @@ export default function SideForm() {
     }
 
     setLoading(true);
-
-   
   };
 
   return (
     <div className="w-full max-w-sm z-10">
-      {/* FORM CARD */}
-      <div className="bg-white rounded-2xl border border-gray-400 p-6 shadow-lg">
-        <h3 className="font-semibold text-gray-900 mb-4">
-          Enquire About This Package
+      {/* SKY THEME CARD */}
+      <div className="bg-gradient-to-br from-sky-50 via-white to-blue-50 
+      rounded-2xl border border-blue-200 p-6 shadow-xl">
+
+        <h3 className="font-semibold text-blue-900 mb-4 text-lg">
+          Let’s Plan Your Trip ✈️
         </h3>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+
           <FloatingInput
             label="Full Name"
             name="name"
@@ -68,7 +65,7 @@ export default function SideForm() {
 
           {/* Phone */}
           <div className="flex gap-2">
-            <div className="w-20 border rounded-xl flex items-center justify-center text-sm">
+            <div className="w-20 border border-blue-200 rounded-xl flex items-center justify-center text-sm bg-white">
               +91
             </div>
             <div className="flex-1">
@@ -90,12 +87,12 @@ export default function SideForm() {
               value={form.travelDate}
               onChange={handleChange}
               required
-              className="peer w-full rounded-xl border border-gray-300 px-4 pt-5 pb-2
-              text-sm outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-200"
+              className="peer w-full rounded-xl border border-blue-200 px-4 pt-5 pb-2
+              text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white"
             />
             <label
               className="absolute left-3 top-1 text-xs text-gray-500
-              peer-focus:text-orange-600"
+              peer-focus:text-sky-600"
             >
               Travel Date *
             </label>
@@ -119,17 +116,21 @@ export default function SideForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-500 hover:bg-orange-600 cursor-pointer
-            text-white font-semibold py-3 rounded-xl transition disabled:opacity-60"
+            className="w-full bg-gradient-to-r from-sky-500 to-blue-600 
+            hover:from-sky-600 hover:to-blue-700
+            cursor-pointer text-white font-semibold py-3 rounded-xl 
+            shadow-md hover:shadow-lg transition-all duration-300
+            disabled:opacity-60"
           >
             {loading ? "Sending..." : "Send Enquiry"}
           </button>
         </form>
+
         {success && (
-            <p className="mt-3 text-xs text-green-700 text-center">
-              Enquiry sent successfully ✔ Redirecting to WhatsApp…
-            </p>
-          )}
+          <p className="mt-3 text-xs text-green-700 text-center">
+            Enquiry sent successfully ✔ Redirecting to WhatsApp…
+          </p>
+        )}
       </div>
     </div>
   );
