@@ -5,26 +5,28 @@ import DateRangePicker from './DateRangePicker';
 import { DateRange } from "react-day-picker"
 import TimePicker from '@/utils/TimePicker';
 
-const OneWayTripFilter = () => {
+const RoundWayTripFilter = ({filter , onChange} : any ) => {
 
-  const [from, setFrom] = useState("Mumbai")
-  const [to, setTo] = useState("Banglore");
   const [isFromOpen, setIsFromOpen] = useState(false)
   const [isToOpen, setIsToOpen] = useState(false)
   const [returnOpen, setReturnOpen] = useState(false)
   const [returnRange, setReturnRange] = useState<DateRange | undefined>()
-  const [pickupOpen, setPickupOpen] = useState(false)
-  const [pickupTime, setPickupTime] = useState("10:00 AM")
+  const [pickupOpen, setPickupOpen] = useState(false);
   const pickupRef = useRef<HTMLDivElement>(null)
+  const returnRef = useRef<HTMLDivElement>(null);
 
 
-  const returnRef = useRef<HTMLDivElement>(null)
+  const handleSwap = () => {
+    const temp = filter.from;
+    onChange("from", filter.to);
+    onChange("to", temp);
+  }
 
 
   return (
 
     <div className="w-full bg-white rounded-2xl overflow-visible shadow-sm relative">
-      <div className="grid grid-cols-13 items-center px-3">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-13 items-center px-3">
 
         {/* FROM */}
         <div className="col-span-2 relative">
@@ -34,7 +36,7 @@ const OneWayTripFilter = () => {
             onClick={() => setIsFromOpen(true)}
           >
             <p className="text-sm text-slate-500">From</p>
-            <h2 className="text-2xl font-bold text-slate-900">{from}</h2>
+            <h2 className="text-2xl font-bold text-slate-900">{filter.from}</h2>
           </div>
 
           {/* DROPDOWN (separate) */}
@@ -42,14 +44,15 @@ const OneWayTripFilter = () => {
           <CityDropdown
             open={isFromOpen}
             onClose={() => setIsFromOpen(false)}
-            onSelect={setFrom}
+            onSelect={onChange}
+            filter = "from"
           />
 
         </div>
 
         {/* SWAP */}
         <div className="col-span-1 flex justify-center">
-          <button className="w-10 h-10 rounded-full bg-white border border-sky-200 flex items-center justify-center shadow hover:bg-sky-50 transition">
+          <button className="w-10 h-10 rounded-full bg-white border border-sky-200 flex items-center justify-center shadow hover:bg-sky-50 transition cursor-pointer" onClick={handleSwap}>
             <ArrowLeftRight className="w-5 h-5 text-sky-600" />
           </button>
         </div>
@@ -62,7 +65,7 @@ const OneWayTripFilter = () => {
             onClick={() => setIsToOpen(true)}
           >
             <p className="text-sm text-slate-500">From</p>
-            <h2 className="text-2xl font-bold text-slate-900">{to}</h2>
+            <h2 className="text-2xl font-bold text-slate-900">{filter.to}</h2>
           </div>
 
           {/* DROPDOWN (separate) */}
@@ -70,7 +73,8 @@ const OneWayTripFilter = () => {
           <CityDropdown
             open={isToOpen}
             onClose={() => setIsToOpen(false)}
-            onSelect={setTo}
+            onSelect={onChange}
+            filter = "to"
           />
         </div>
 
@@ -80,7 +84,7 @@ const OneWayTripFilter = () => {
             Departure <ChevronDown className="w-4 h-4" />
           </div>
           <h2 className="text-2xl font-bold">
-            14 <span className="text-base font-medium">Feb’26</span>
+             <span className="text-base font-medium">{filter.departure}</span>
           </h2>
           <p className="text-sm text-slate-500">Saturday</p>
         </div>
@@ -98,7 +102,7 @@ const OneWayTripFilter = () => {
                 Return <ChevronDown className="w-4 h-4" />
               </div>
               <h2 className="text-2xl font-bold">
-                14 <span className="text-base font-medium">Feb’26</span>
+                <span className="text-base font-medium">{filter.return}</span>
               </h2>
               <p className="text-sm text-slate-500">Saturday</p>
             </div>
@@ -109,7 +113,7 @@ const OneWayTripFilter = () => {
             open={returnOpen}
             value={returnRange}
             onChange={(range) => {
-              setReturnRange(range)
+              onChange("return", range?.from)
               if (range?.from && range?.to) {
                 setReturnOpen(false)
               }
@@ -131,7 +135,7 @@ const OneWayTripFilter = () => {
               <div className="flex items-center gap-1 text-sm text-slate-500">
                 Pickup-Time <ChevronDown className="w-4 h-4" />
               </div>
-              <h2 className="text-xl font-bold">{pickupTime}</h2>
+              <h2 className="text-xl font-bold">{filter.pickup}</h2>
               <p className="text-sm text-slate-500">AM</p>
             </div>
           </div>
@@ -139,7 +143,7 @@ const OneWayTripFilter = () => {
           <TimePicker
             open={pickupOpen}
             triggerRef={pickupRef}
-            onApply={(time) => setPickupTime(time)}
+            onApply={(time) => onChange("pickup",time)}
             onClose={() => setPickupOpen(false)}
           />
         </div>
@@ -159,4 +163,4 @@ const OneWayTripFilter = () => {
   )
 }
 
-export default OneWayTripFilter
+export default RoundWayTripFilter

@@ -16,19 +16,14 @@ const page = async ({ params }: { params: Promise<{ slug: string , duration : st
 
 return (
   <>
-   
-      <Navbar />
 
-     
-
-      {/* HERO */}
       <HeroSection/>
       
 
       {/* MAIN CONTENT + SIDEBAR */}
-      <section className="w-full min-h-screen bg-red-600  ">
+      <section className="w-full min-h-screen bg-blue-600  ">
+         
         <div className="  py-12 ">
-          <h1 className="text-red-600 text-4xl">lasf</h1>
 
           {/* GRID */}
           <div className=" grid grid-cols-1 lg:grid-cols-2 gap-10  ">

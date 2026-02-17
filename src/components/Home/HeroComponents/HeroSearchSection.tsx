@@ -14,7 +14,7 @@ const tripTypes = [
 ]
 
 
-export default function HeroSearchSection({filter , onChange} : any) {
+export default function HeroSearchSection({ filter, onChange }: any) {
 
     const [tripType, setTripType] = useState("oneway")
     const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ export default function HeroSearchSection({filter , onChange} : any) {
         <div className="bg-white rounded-3xl shadow-2xl border border-sky-200 px-8 pt-20 pb-8">
 
 
-            <div className="mt-6 flex flex-wrap gap-6 text-sm pb-3">
+            <div className="mt-6 flex gap-6 text-sm pb-3 no-scrollbar overflow-y-auto">
 
                 {tripTypes.map((type) => (
 
@@ -35,7 +35,11 @@ export default function HeroSearchSection({filter , onChange} : any) {
                             name="tripType"
                             value={type.id}
                             checked={tripType === type.id}
-                            onChange={() => onChange("type" , type.id)}
+                            onChange={() => {
+                                setTripType(type.id)
+                                onChange("type", type.id)
+                            }
+                            }
                             className="hidden"
                         />
 
@@ -67,14 +71,14 @@ export default function HeroSearchSection({filter , onChange} : any) {
                 ))}
 
             </div>
-         
 
-                {tripType === "oneway" && <OneWayTripFilter filter = {filter} onChange = {onChange}/>}
-                {tripType === "round" && <RoundWayTripFilter />}
-                {tripType === "airport" && <AirportTripFilter />}
-                {tripType === "hourly" && <HourlyTripFilter />}
 
-            
+            {tripType === "oneway" && <OneWayTripFilter filter={filter} onChange={onChange} />}
+            {tripType === "round" && <RoundWayTripFilter filter={filter} onChange={onChange} />}
+            {tripType === "airport" && <AirportTripFilter filter={filter} onChange={onChange}/>}
+            {tripType === "hourly" && <HourlyTripFilter />}
+
+
             <div className="mt-6 flex flex-col md:flex-row justify-between items-start md:items-center text-sm text-gray-600 gap-3">
                 <span>
                     Your round trip plan: <strong>1 day</strong> •

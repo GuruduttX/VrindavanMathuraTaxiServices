@@ -3,14 +3,17 @@
 import { useState } from 'react';
 import HeroCTA from './HeroComponents/HeroCTA'
 import HeroSearchSection from './HeroComponents/HeroSearchSection'
+import { useRouter } from 'next/navigation';
 
 
 
 export default function HomeHero() {
 
+    const router = useRouter();
+
     const [search, setSearch] = useState({
-        from: "",
-        to: "",
+        from: "Mumbai",
+        to: "Pune",
         departure: "",
         return: "",
         pickup: "",
@@ -18,10 +21,15 @@ export default function HomeHero() {
         type: ""
     });
 
-    const updateSearch = (type : string , value : string) => {
+    const updateSearch = (field : string , value : string) => {
         setSearch((prev) => {
-            return {...prev , [type] : value}
+            return {...prev , [field] : value}
         })
+    }
+
+
+    const handleSearch = () => {
+        router.push(`/cabs/listing?from=${search.from}&to=${search.to}&departure=${search.departure}&return=${search.return}&pickup=${search.pickup}&drop=${search.drop}&type=${search.type}`)
     }
 
     return (
@@ -35,7 +43,7 @@ export default function HomeHero() {
                 <HeroSearchSection filter = {search} onChange = {updateSearch}/>
 
 
-                <div className="absolute bottom-10 left-12 md:left-130 lg:left-130 flex justify-center mt-8">
+                <div className="absolute bottom-10 left-12 md:left-130 lg:left-130 flex justify-center mt-8" onClick={handleSearch}>
                     <button className="bg-blue-700 hover:bg-blue-900 text-white px-24 py-4 rounded-full text-lg font-semibold shadow-xl cursor-pointer">
                         SEARCH
                     </button>

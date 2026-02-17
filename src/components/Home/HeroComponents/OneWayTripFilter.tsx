@@ -11,12 +11,19 @@ const OneWayTripFilter = ({filter , onChange} : any ) => {
   const [isToOpen, setIsToOpen] = useState(false)
   const [returnOpen, setReturnOpen] = useState(false)
   const [returnRange, setReturnRange] = useState<DateRange | undefined>()
-  const [pickupOpen, setPickupOpen] = useState(false)
-  const [pickupTime, setPickupTime] = useState("10:00 AM")
+  const [pickupOpen, setPickupOpen] = useState(false);
   const pickupRef = useRef<HTMLDivElement>(null)
 
 
-  const returnRef = useRef<HTMLDivElement>(null)
+  const returnRef = useRef<HTMLDivElement>(null);
+
+
+  const handleSwap = () => {
+    const temp = filter.from;
+    onChange("from", filter.to);
+    onChange("to", temp);
+
+  }
 
 
   return (
@@ -48,7 +55,7 @@ const OneWayTripFilter = ({filter , onChange} : any ) => {
 
         {/* SWAP */}
         <div className="col-span-1 flex justify-center">
-          <button className="w-10 h-10 rounded-full bg-white border border-sky-200 flex items-center justify-center shadow hover:bg-sky-50 transition">
+          <button className="w-10 h-10 rounded-full bg-white border border-sky-200 flex items-center justify-center shadow hover:bg-sky-50 transition cursor-pointer" onClick={handleSwap}>
             <ArrowLeftRight className="w-5 h-5 text-sky-600" />
           </button>
         </div>
@@ -80,7 +87,7 @@ const OneWayTripFilter = ({filter , onChange} : any ) => {
             Departure <ChevronDown className="w-4 h-4" />
           </div>
           <h2 className="text-2xl font-bold">
-            14 <span className="text-base font-medium">Feb’26</span>
+             <span className="text-base font-medium">{filter.departure}</span>
           </h2>
           <p className="text-sm text-slate-500">Saturday</p>
         </div>
@@ -98,7 +105,7 @@ const OneWayTripFilter = ({filter , onChange} : any ) => {
                 Return <ChevronDown className="w-4 h-4" />
               </div>
               <h2 className="text-2xl font-bold">
-                14 <span className="text-base font-medium">Feb’26</span>
+                <span className="text-base font-medium">{filter.return}</span>
               </h2>
               <p className="text-sm text-slate-500">Saturday</p>
             </div>
@@ -109,7 +116,7 @@ const OneWayTripFilter = ({filter , onChange} : any ) => {
             open={returnOpen}
             value={returnRange}
             onChange={(range) => {
-              setReturnRange(range)
+              onChange("return", range?.from)
               if (range?.from && range?.to) {
                 setReturnOpen(false)
               }
@@ -131,7 +138,7 @@ const OneWayTripFilter = ({filter , onChange} : any ) => {
               <div className="flex items-center gap-1 text-sm text-slate-500">
                 Pickup-Time <ChevronDown className="w-4 h-4" />
               </div>
-              <h2 className="text-xl font-bold">{pickupTime}</h2>
+              <h2 className="text-xl font-bold">{filter.pickup}</h2>
               <p className="text-sm text-slate-500">AM</p>
             </div>
           </div>
@@ -139,7 +146,7 @@ const OneWayTripFilter = ({filter , onChange} : any ) => {
           <TimePicker
             open={pickupOpen}
             triggerRef={pickupRef}
-            onApply={(time) => setPickupTime(time)}
+            onApply={(time) => onChange("pickup",time)}
             onClose={() => setPickupOpen(false)}
           />
         </div>
