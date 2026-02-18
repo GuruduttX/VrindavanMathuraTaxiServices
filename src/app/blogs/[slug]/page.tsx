@@ -10,16 +10,51 @@ import HeroSection from "@/components/Blogs/HeroSection";
 import BlogContentSection from "@/components/Blogs/BlogContentSection";
 import BlogFAQSection from "@/components/Blogs/BlogFAQSection";
 import BlogCTASection from "@/components/Blogs/BlogCTASection";
+import { supabase } from "@/lib/supabase/SupabaseConfig";
 
 
-const page = async ({ params }: { params: Promise<{ slug: string , duration : string}> }) => {
+async function getBlog(slug: string) {
+      const { data, error } = await supabase
+        .from("Blog")
+        .select("*")
+        .eq("slug", slug)
+        .single();
 
-  
+      if (error) {
+        console.error("Error fetching blog:", error.message);
+        return null;
+      }
+
+      return data;
+  }
+
+
+
+
+const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
+   const {slug} = await params;
+
+   const { data, error } = await supabase
+        .from("Blog")
+        .select("id, slug")
+        .eq("slug", slug)
+        .maybeSingle();
+
+
+    if (!data || error) {
+
+        notFound();
+
+    }
+
+   const blog = await getBlog(slug);
+   
+   console.log("This Blog Data", blog);
 
 return (
-  <>
+  <>  <Navbar/>
 
-      <HeroSection/>
+      <HeroSection blog={blog}/>
       
 
      {/* MAIN CONTENT + SIDEBAR */}
@@ -36,7 +71,7 @@ return (
 
             {/* LEFT CONTENT */}
             <main className="space-y-12">
-              <BlogContentSection />
+              <BlogContentSection content={blog.content} />
             </main>
 
             {/* RIGHT SIDEBAR */}
@@ -55,7 +90,7 @@ return (
 
       <BlogCTASection/>
 
-      <BlogFAQSection/>
+      <BlogFAQSection faqs={blog.faqs}/>
 
 
       {/* BELOW CONTENT */}
