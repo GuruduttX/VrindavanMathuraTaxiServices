@@ -22,10 +22,10 @@ export default function HeroSearchSection({ filter, onChange }: any) {
 
     return (
 
-        <div className="bg-white rounded-3xl shadow-2xl border border-sky-200 px-8 pt-20 pb-8">
+        <div className="bg-white rounded-3xl shadow-2xl border border-sky-200 px-3 md:px-8 lg:px-8 pt-5 md:pt-20 lg:pt-20 pb-8">
 
 
-            <div className="mt-6 flex gap-6 text-sm pb-3 no-scrollbar overflow-y-auto">
+            <div className="mt-6 flex gap-6 text-sm pb-4 md:pb-3 lg:mb-3 no-scrollbar overflow-x-auto shrink-0 whitespace-nowrap">
 
                 {tripTypes.map((type) => (
 

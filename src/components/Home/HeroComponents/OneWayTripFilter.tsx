@@ -104,7 +104,7 @@ const OneWayTripFilter = ({ filter, onChange }: any) => {
             open={departureOpen}
             onChange={onChange}
             onClose={() => setDepartureOpen(false)}
-            triggerRef={returnRef}
+            triggerRef={departureRef}
             type="departure"
           />
         </div>

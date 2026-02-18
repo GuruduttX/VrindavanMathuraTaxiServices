@@ -17,8 +17,8 @@ export default function HomeHero() {
         departure: new Date(Date.now()).toLocaleDateString(),
         return: new Date(Date.now()).toLocaleDateString(),
         pickup: "10:00 AM",
-        drop: "",
-        type: ""
+        drop: "9:45 AM",
+        type: "oneway"
     });
 
     const updateSearch = (field: string, value: string) => {

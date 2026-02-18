@@ -42,10 +42,10 @@ export default function TrustGlowRailSection() {
 
       {/* Header */}
       <div className="text-center mb-20">
-        <h2 className="text-4xl md:text-5xl font-bold text-sky-800">
+        <h2 className="text-2xl md:text-5xl font-bold text-sky-800">
           Trust That Shines Through Every Journey
         </h2>
-        <p className="text-sky-600 mt-4 max-w-xl mx-auto">
+        <p className="text-sky-600 mt-4 max-w-xl mx-auto text-md">
           Premium service built on safety, reliability, and care
         </p>
       </div>

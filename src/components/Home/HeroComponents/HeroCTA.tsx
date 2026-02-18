@@ -2,7 +2,7 @@ import { IndianRupee, MessageCircle, Phone } from 'lucide-react'
 
 const HeroCTA = () => {
   return (
-    <div className="absolute left-10 md:left-40 top-0 md:top-7 bg-white flex md:flex-row items-stretch justify-between gap-1 md:gap-0 md:px-7 py-2 rounded-3xl border border-sky-400 shadow shadow-[#03a4fb] w-[80%] md:w-[75%]">
+    <div className="absolute left-10 md:left-40 top-4 md:top-7 bg-white flex md:flex-row items-stretch justify-center md:justify-between lg:justify-between gap-1 md:gap-0 md:px-7 py-2 rounded-3xl border border-sky-400 shadow shadow-[#03a4fb] w-[80%] md:w-[75%]">
 
       {/* WHATSAPP */}
       <div className="px-6 md:px-10">
@@ -34,7 +34,7 @@ const HeroCTA = () => {
             <Phone className="h-3 md:h-5 lg:h-8 w-auto" />
           </span>
           <span className="mt-1">Call Now</span>
-          <span className="text-[10px] text-gray-400 group-hover:text-sky-600">
+          <span className="text-[10px] text-gray-400 group-hover:text-sky-600 whitespace-nowrap">
             24×7 Support
           </span>
         </button>
@@ -50,7 +50,7 @@ const HeroCTA = () => {
             <IndianRupee className="h-3 md:h-5 lg:h-8 w-auto" />
           </span>
           <span className="mt-1">Get Fare</span>
-          <span className="text-[10px] text-gray-400 group-hover:text-blue-600">
+          <span className="text-[10px] text-gray-400 group-hover:text-blue-600 whitespace-nowrap">
             Instant Quote
           </span>
         </button>

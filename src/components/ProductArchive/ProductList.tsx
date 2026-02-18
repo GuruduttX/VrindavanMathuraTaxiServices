@@ -1,9 +1,36 @@
 "use client"
 
+import { supabase } from "@/lib/supabase/SupabaseConfig"
 import ProductCard from "./ProductCard"
 import { ShieldCheck, Sparkles, Clock } from "lucide-react"
+import { useEffect, useState } from "react"
+
+type Car = {
+  name : string,
+  seat : string,
+  baseprice : string,
+  cabtype :string,
+  fueltype : string,
+  inclusion : {
+    id : string,
+    description : string
+  }[],
+  exclusion : {
+    id : string,
+    description : string
+  }[],
+  image : string
+}
 
 export default function ProductsList() {
+
+  const [cars , setCars] = useState<Car[]>()
+
+
+  useEffect(() => {
+    
+  },[])
+  
   return (
     <div
       className="

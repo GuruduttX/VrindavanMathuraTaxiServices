@@ -38,11 +38,11 @@ const DateRangePicker = ({
     }
 
     if (open) {
-      document.addEventListener("click", handleClickOutside)
+      document.addEventListener("mousedown", handleClickOutside)
     }
 
     return () => {
-      document.removeEventListener("click", handleClickOutside)
+      document.removeEventListener("mouseover", handleClickOutside)
     }
   }, [open, onClose, triggerRef])
 

@@ -9,31 +9,10 @@ export default function BlogHero() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-<<<<<<< HEAD
-    <section className="relative w-full px-6 py-12 lg:px-16 ">
-=======
     <>
->>>>>>> main
 
-      <section className="relative w-full px-6 py-12 lg:px-16 mt-24 bg-red-900">
+      <section className="relative w-full px-6 py-12 lg:px-16 bg-sky-100">
 
-<<<<<<< HEAD
-      {/* ================= Breadcrumbs ================= */}
-      <nav className="text-sm text-blue-500 mb-6 flex flex-wrap ml-18 mt-16 ">
-        <Link href="/" className="hover:text-blue-700 transition">
-          Home
-        </Link>
-        <span className="mx-2">/</span>
-        <Link href="/blogs" className="hover:text-blue-700 transition cursor-pointer">
-          Blog
-        </Link>
-        <span className="mx-2">/</span>
-        <span className="font-medium text-blue-700">
-          Mathura Taxi Travel Guide
-        </span>
-      </nav>
-=======
->>>>>>> main
 
 
         <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-100 via-blue-50 to-white" />
@@ -86,19 +65,11 @@ export default function BlogHero() {
               Mathura Taxi Service – Complete Travel Guide
             </h1>
 
-<<<<<<< HEAD
-        {/* Left: Blog Title */}
-        <div className="flex-1 min-w-0">
-          <h1 className="text-3xl lg:text-4xl font-extrabold leading-tight ">
-            Mathura Taxi Service – Complete Travel Guide
-          </h1>
-=======
             <p className="mt-4 text-gray-600 max-w-xl">
               Discover the best taxi services, local travel tips, and must-visit
               destinations in Mathura for a comfortable and memorable journey.
             </p>
           </div>
->>>>>>> main
 
           {/* Right: Let’s Connect Section */}
           <div
