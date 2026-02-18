@@ -12,6 +12,8 @@ import { supabase } from '@/lib/supabase/SupabaseConfig';
 import toast from 'react-hot-toast';
 import CMSSchema from '@/components/Admin/CMS/CMSSchema';
 
+
+
 type BlogForm = {
 
   title: string;
@@ -67,7 +69,7 @@ export default function CreateNewBlog() {
     })
 
   }
-
+  
   const handleSave = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
@@ -93,6 +95,8 @@ export default function CreateNewBlog() {
     if (!form.category) {
       toast.error("Blog category is missing")
     }
+    
+    // Slug Validation
 
     const { data: existingData, error: existingError } = await supabase
       .from("Blog")
