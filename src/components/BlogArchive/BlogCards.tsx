@@ -141,10 +141,10 @@ const BlogCards = () => {
     return (
 
 
-        <section className="py-16 relative">
+        <section className="py-16 relative ">
 
 
-            <div className="mx-auto w-full px-20 ">
+            <div className="mx-auto w-full px-8 sm:px-10 md:px-16 lg:px-20 ">
                 {/* BreadCrumb */}
 
                 <div className='flex sm:flex-row  flex-col sm:items-center gap-10 mb-2'>
@@ -153,7 +153,7 @@ const BlogCards = () => {
                             Home
                         </Link>
                         <span className="mx-2">/</span>
-                        <Link href={"/blog"} className="text-gray-600 font-medium ">
+                        <Link href={"/blogs"} className="text-gray-600 font-medium ">
                             Blogs
                         </Link>
                     </nav>
@@ -242,7 +242,7 @@ const BlogCards = () => {
                     {currBlogs.map((card, idx) => (
                         <Link
                             key={idx}
-                            href={`/blog/${card.slug}`}
+                            href={`/blogs/${card.slug}`}
                             className="md:max-w-[300px] lg:max-w-[340px] bg-white rounded-3xl shadow hover:shadow-2xl hover:shadow-sky-300 transition border-2 border-sky-400"
                         >
 
