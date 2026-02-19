@@ -4,33 +4,54 @@ import { supabase } from "@/lib/supabase/SupabaseConfig"
 import ProductCard from "./ProductCard"
 import { ShieldCheck, Sparkles, Clock } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 
 type Car = {
-  name : string,
-  seat : string,
-  baseprice : string,
-  cabtype :string,
-  fueltype : string,
-  inclusion : {
-    id : string,
-    description : string
+  id : string,
+  name: string,
+  seat: string,
+  baseprice: string,
+  cabtype: string,
+  fueltype: string,
+  inclusion: {
+    id: string,
+    description: string
   }[],
-  exclusion : {
-    id : string,
-    description : string
+  exclusion: {
+    id: string,
+    description: string
   }[],
-  image : string
+  image: string
 }
 
 export default function ProductsList() {
 
-  const [cars , setCars] = useState<Car[]>()
+  const router = useRouter();
 
+  const [cars, setCars] = useState<Car[]>();
+  const searchParams  = useSearchParams();
+
+  const getCars = async () => {
+    const { data, error } = await supabase.from("Cars").select("*");
+    
+
+    if (error) {
+      console.log("The error I have got is : ");
+    }
+
+    setCars(data ?? []);
+
+  }
+
+  const handleSelect = ( id : string, name : string , cabtype : string, fueltype: string , seat : string , price : string ) => {
+
+    router.push(`/cabs/review?from=${searchParams.get("from")}&to=${searchParams.get("to")}&departure=${searchParams.get("departure")}&return=${searchParams.get("return")}&pickup=${searchParams.get("pickup")}&drop=${searchParams.get("drop")}&type=${searchParams.get("type")}&carname=${name}&cabtype=${cabtype}&fueltype=${fueltype}&carseat=${seat}&carprice=${price}&carId=${id}`)
+  }
 
   useEffect(() => {
-    
-  },[])
-  
+    getCars()
+  }, [])
+
   return (
     <div
       className="
@@ -42,7 +63,7 @@ export default function ProductsList() {
         custom-scrollbar
       "
     >
-    
+
       {/* Info Strip */}
       <div className="
         sticky top-0 z-10
@@ -62,8 +83,8 @@ export default function ProductsList() {
 
       {/* Cards */}
       <div className="space-y-5">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <ProductCard key={i} />
+        {cars?.map((car : Car) => (
+          <ProductCard key={car.id} car={car} onClick={handleSelect}/>
         ))}
       </div>
     </div>

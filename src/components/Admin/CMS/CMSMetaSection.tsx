@@ -40,7 +40,7 @@ const Blogcategories = [
 
 
 
-const CMSMetaSection = ({ title, category, slug, onChange, editorType }: { title: string, category: string, slug: string, onChange: any, editorType: "Blog" | "Package" }) => {
+const CMSMetaSection = ({ title, category, slug, onChange, editorType }: { title: string, category: string, slug: string, onChange: any, editorType: "Blog" | "Car" }) => {
     return (
         <div className="space-y-6">
             {/* Blog Title */}

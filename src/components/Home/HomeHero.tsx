@@ -11,11 +11,17 @@ export default function HomeHero() {
 
     const router = useRouter();
 
+    const Currentdate =  new Date(Date.now()).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          })
+
     const [search, setSearch] = useState({
         from: "Mumbai",
         to: "Pune",
-        departure: new Date(Date.now()).toLocaleDateString(),
-        return: new Date(Date.now()).toLocaleDateString(),
+        departure: Currentdate,
+        return: Currentdate,
         pickup: "10:00 AM",
         drop: "9:45 AM",
         type: "oneway"

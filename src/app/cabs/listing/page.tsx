@@ -4,12 +4,53 @@ import CabCTASection from "@/components/Home/CabCTASection"
 import FiltersPanel from "@/components/ProductArchive/FiltersPanel"
 import ProductsList from "@/components/ProductArchive/ProductList"
 import RatingSection from "@/components/ProductArchive/RatingSection"
+import { supabase } from "@/lib/supabase/SupabaseConfig"
 import Footer from "@/utils/Footer"
 import Navbar from "@/utils/Navbar"
 import NormalNavbar from "@/utils/NormalNavbar"
 import TaxiCTASection from "@/utils/TaxiCTASection"
 
-export default function ProductsPage() {
+type Car = {
+  id: string,
+  name: string,
+  seat: string,
+  baseprice: string,
+  cabtype: string,
+  fueltype: string,
+  inclusion: {
+    id: string,
+    description: string
+  }[],
+  exclusion: {
+    id: string,
+    description: string
+  }[],
+  image: string
+}
+
+let currentCars;
+
+const getCars = async () => {
+    const { data, error } = await supabase.from("Cars").select("*");
+
+    if (error) {
+        console.log("THE ERROR WE HAVE GOT IS THE : ");
+        console.log(error);
+    }
+
+    currentCars = data;
+
+    return data;
+}
+
+export default async function ProductsPage() {
+
+    const CarData = await getCars();
+
+    const handleCurrentCars = (car : Car[]) => {
+        currentCars = car
+    }
+
     return (
         <>
             <NormalNavbar />
@@ -24,7 +65,7 @@ export default function ProductsPage() {
                         {/* LEFT FILTERS */}
                         <aside className="col-span-3 pb-8 pt-5">
                             <div className="sticky top-24">
-                                <FiltersPanel />
+                                <FiltersPanel cars={CarData} filteredCars={handleCurrentCars}/>
                             </div>
                         </aside>
 

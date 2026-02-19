@@ -6,15 +6,15 @@ import Link from "next/link";
 import DeleteConfirmModal from "@/utils/Admin/DeleteConfirmModal";
 import toast from "react-hot-toast";
 
-type BlogType = {
+type CarType = {
   id: string;
-  title: string;
-  category: string;
-  price : string
+  name: string;
+  cabtype: string;
+  baseprice : string
 };
 
-export default function BlogTable() {
-  const [blogs, setBlogs] = useState<BlogType[]>([]);
+export default function CarsTable() {
+  const [cars, setCars] = useState<CarType[]>([]);
   const [loading, setLoading] = useState(true);
   const [open , setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -22,8 +22,8 @@ export default function BlogTable() {
   useEffect(() => {
     const getBlogs = async () => {
       const { data, error } = await supabase
-        .from("Package")
-        .select("id, title, category, price");
+        .from("Cars")
+        .select("id, name, cabtype, baseprice");
 
       if (error) {
         console.error(error);
@@ -31,7 +31,7 @@ export default function BlogTable() {
         return;
       }
 
-      setBlogs(data ?? []);
+      setCars(data ?? []);
       setLoading(false);
     };
 
@@ -42,7 +42,7 @@ export default function BlogTable() {
     return <p className="text-white">Loading blogs...</p>;
   }
 
-  if (blogs.length === 0) {
+  if (cars.length === 0) {
     return <p className="text-white">No blogs found.</p>;
   }
 
@@ -51,7 +51,7 @@ export default function BlogTable() {
       return;
     }
     const { error } = await supabase
-      .from("Package")
+      .from("Cars")
       .delete()
       .eq("id", selectedId);
 
@@ -60,9 +60,9 @@ export default function BlogTable() {
       return;
     }
 
-    toast.success("Blog Deleted Successfully");
+    toast.success("Cars Deleted Successfully");
 
-    setBlogs((prev) => prev.filter((b) => b.id !== selectedId));
+    setCars((prev) => prev.filter((b) => b.id !== selectedId));
     setSelectedId("");
     setOpen(false);
   };
@@ -87,28 +87,28 @@ export default function BlogTable() {
         </thead>
 
         <tbody>
-          {blogs.map((blog) => (
+          {cars.map((car) => (
             <tr
-              key={blog.id}
+              key={car.id}
               className="border-b border-white/5 hover:bg-white/5 transition"
             >
               <td className="px-6 py-4 font-medium text-white">
-                {blog.title}
+                {car.name}
               </td>
 
               <td className="px-6 py-4">
                 <span className="px-3 py-1 rounded-full text-xs
                   bg-blue-500/10 text-blue-400 border border-blue-400/20">
-                  {blog.category}
+                  {car.cabtype}
                 </span>
               </td>
 
               <td className="px-6 py-4 text-gray-300">
-                {blog.price}
+                {car.baseprice}
               </td>
 
               <td className="px-6 py-4 text-center">
-                <Link href={`/admin-x9AqP7mK2/products/edit/${blog.id}`}  className="px-4 py-1.5 text-sm bg-blue-600/20 text-blue-400
+                <Link href={`/admin-x9AqP7mK2/cars/edit/${car.id}`}  className="px-4 py-1.5 text-sm bg-blue-600/20 text-blue-400
                   border border-blue-500/30 hover:bg-blue-600/30 transition rounded-2xl flex justify-center">
                   Edit
                 </Link>
@@ -118,7 +118,7 @@ export default function BlogTable() {
                 <button
                   disabled={open}
                   onClick={() => {
-                    setSelectedId(blog.id);
+                    setSelectedId(car.id);
                     setOpen(true);
                   }}
                   className="px-4 py-1.5 rounded-2xl text-sm

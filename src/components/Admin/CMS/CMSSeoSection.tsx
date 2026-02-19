@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CMSSeoSection = ({ metaTitle, metaDescription, onChange }: { metaTitle: string, metaDescription: string, onChange: any , editorType : "Blog" | "Package"}) => {
+const CMSSeoSection = ({ metaTitle, metaDescription, onChange }: { metaTitle: string, metaDescription: string, onChange: any , editorType : "Blog" | "Car"}) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>

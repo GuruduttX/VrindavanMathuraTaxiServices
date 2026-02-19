@@ -8,7 +8,7 @@ import CMSLoading from "@/components/Admin/CMS/CMSLoading";
 
 
 export default function ProductCards() {
-  const [packages, setPackage] = useState<any[]>([]);
+  const [cars, setCars] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -18,7 +18,7 @@ export default function ProductCards() {
   useEffect(() => {
     const getBlogs = async () => {
       const { data, error } = await supabase
-        .from("Package")
+        .from("Cars")
         .select("*");
 
       if (error) {
@@ -27,7 +27,7 @@ export default function ProductCards() {
         return;
       }
 
-      setPackage(data ?? []);
+      setCars(data ?? []);
       setLoading(false);
     };
 
@@ -39,7 +39,7 @@ export default function ProductCards() {
       return;
     }
     const { error } = await supabase
-      .from("Package")
+      .from("Cars")
       .delete()
       .eq("id", selectedId);
 
@@ -48,9 +48,9 @@ export default function ProductCards() {
       return;
     }
 
-    toast.success("Package Deleted Successfully");
+    toast.success("Cars Deleted Successfully");
 
-    setPackage((prev) => prev.filter((b) => b.id !== selectedId));
+    setCars((prev) => prev.filter((b) => b.id !== selectedId));
     setSelectedId("");
     setOpen(false);
   };
@@ -59,7 +59,7 @@ export default function ProductCards() {
     return <CMSLoading />
   }
 
-  if (packages.length === 0) {
+  if (cars.length === 0) {
     return <p className="text-white">No blogs found.</p>;
   }
 
@@ -74,9 +74,9 @@ export default function ProductCards() {
             gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
           }}
         >
-          {packages.map((packag) => (
+          {cars.map((car) => (
             <article
-              key={packag.id}
+              key={car.id}
               className="group relative rounded-2xl overflow-hidden
             bg-gradient-to-br from-[#0b1437] to-[#060b1f]
             border border-white/10
@@ -86,8 +86,8 @@ export default function ProductCards() {
             >
               <div className="h-48 overflow-hidden">
                 <img
-                  src={packag.heroimage.image}
-                  alt={packag.title}
+                  src={car.image}
+                  alt={car.name}
                   className="w-full h-full object-cover
                 group-hover:scale-105 transition duration-500"
                 />
@@ -96,20 +96,20 @@ export default function ProductCards() {
               <div className="p-5">
                 <span className="inline-block mb-3 px-3 py-1 text-xs
                 rounded-full bg-blue-500/10 text-blue-400 border border-blue-400/20">
-                  {packag.category}
+                  {car.cabtype}
                 </span>
 
                 <h3 className="text-base font-semibold text-white mb-2">
-                  {packag.title}
+                  {car.baseprice}
                 </h3>
 
-                <p className="text-sm text-gray-400 line-clamp-3">
+                {/* <p className="text-sm text-gray-400 line-clamp-3">
                   {packag.itinerary[0].description}
-                </p>
+                </p> */}
 
 
                 <div className="flex justify-between transition mt-5">
-                  <Link href={`/admin-x9AqP7mK2/products/edit/${packag.id}`} className="px-6 py-2 rounded-2xl
+                  <Link href={`/admin-x9AqP7mK2/cars/edit/${car.id}`} className="px-6 py-2 rounded-2xl
                   bg-blue-600/20 border border-blue-500/30
                   hover:bg-blue-600/30 transition text-white">
                     Edit
@@ -119,7 +119,7 @@ export default function ProductCards() {
                   <button
                     disabled={open}
                     onClick={() => {
-                      setSelectedId(packag.id);
+                      setSelectedId(car.id);
                       setOpen(true);
                     }}
                     className="px-4 py-1.5 rounded-2xl text-sm
@@ -133,9 +133,9 @@ export default function ProductCards() {
               </div>
 
               <div className="px-5 py-4 border-t border-white/10 flex justify-between">
-                <span className="text-sm text-gray-300">{packag.price}</span>
+                <span className="text-sm text-gray-300">{car.baseprice}</span>
                 <span className="text-xs text-gray-500">
-                  {new Date(packag.created_at).toDateString()}
+                  {new Date(car.created_at).toDateString()}
                 </span>
               </div>
             </article>

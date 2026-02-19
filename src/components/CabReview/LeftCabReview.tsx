@@ -1,7 +1,52 @@
+"use client"
+
+import { supabase } from "@/lib/supabase/SupabaseConfig"
 import { CheckCircle, Clock, MapPin } from "lucide-react"
-import React from "react"
+import { useSearchParams } from "next/navigation"
+import React, { useEffect, useState } from "react"
+
+type Car = {
+  id: string,
+  name: string,
+  seat: string,
+  baseprice: string,
+  cabtype: string,
+  fueltype: string,
+  inclusion: {
+    id: string,
+    description: string
+  }[],
+  exclusion: {
+    id: string,
+    description: string
+  }[],
+  image: string
+}
 
 const LeftCabReview = () => {
+  const searchParams = useSearchParams();
+  const [carData, setCarData] = useState<Car | null>(null);
+
+  const carId = searchParams.get("carId");
+  console.log("THE ID OF THE CAR IS : ");
+  console.log(carId);
+
+  const getCarData = async () => {
+
+    const {data , error} = await supabase.from("Cars").select("*").eq("id", carId).single();
+
+    if(error) {
+      console.log("THE ISSUE ARISES IN THE CABREVIEW : ");
+      console.log(error);
+    }
+
+    setCarData(data);
+
+  }
+
+  useEffect(() => {
+    getCarData();
+  },[])
   return (
     <div className="lg:col-span-8 space-y-6 animate-fade-in">
 
@@ -13,7 +58,7 @@ const LeftCabReview = () => {
 
         <div className="flex items-center gap-3 text-sky-700">
           <MapPin size={18} />
-          <span>Vrindavan → Mathura</span>
+          <span>{searchParams.get("from")} → {searchParams.get("to")}</span>
           <span className="text-sm text-sky-500">
             • 14 Feb, 10:00 AM
           </span>
@@ -28,9 +73,9 @@ const LeftCabReview = () => {
 
         <div className="flex justify-between items-center gap-4">
           <div>
-            <p className="font-medium">Sedan / Ertiga</p>
+            <p className="font-medium">{searchParams.get("carname")} / {searchParams.get("cabtype")}</p>
             <p className="text-sm text-sky-600">
-              4 Seats • AC • Spacious
+              4 Seats • {searchParams.get("fueltype")} • AC • Spacious
             </p>
           </div>
 
@@ -47,14 +92,9 @@ const LeftCabReview = () => {
         </h3>
 
         <ul className="space-y-3">
-          {[
-            "Fuel & Driver Charges Included",
-            "No Toll / Parking Surprise",
-            "Free Waiting up to 45 Minutes",
-            "Transparent Pricing",
-          ].map((item, i) => (
+          {carData?.inclusion.map((item) => (
             <li
-              key={i}
+              key={item.id}
               className="
                 flex items-center gap-3
                 text-sky-700
@@ -63,7 +103,7 @@ const LeftCabReview = () => {
               "
             >
               <CheckCircle size={18} className="text-sky-500" />
-              {item}
+              {item.description}
             </li>
           ))}
         </ul>

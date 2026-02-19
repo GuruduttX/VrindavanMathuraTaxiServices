@@ -13,7 +13,7 @@ export default function Navbar() {
     <>
       <EnquiryPopUp open={isOpen} onClose={() => setIsOpen(false)} />
 
-      <header className="fixed top-3 md:top-5 lg:top-5 left-1/2 -translate-x-1/2 z-50 w-[80vw] md:w-[92%] lg:w-[92%] max-w-8xl">
+      <header className="fixed top-3 md:top-5 lg:top-5 left-1/2 -translate-x-1/2 z-999 w-[80vw] md:w-[92%] lg:w-[92%] max-w-8xl">
         <nav className="flex items-center justify-between px-3 md:px-6 lg:px-6 py-1 md:py-3 lg:py-3 rounded-full 
           shadow-lg border border-sky-100 bg-white">
 

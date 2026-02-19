@@ -2,35 +2,17 @@
 
 import { useState } from "react";
 
-export default function BlogFAQSection() {
-  const faqs = [
-    {
-      question: "Is taxi service available 24/7 in Mathura?",
-      answer:
-        "Yes, most professional taxi services in Mathura operate 24/7 including early morning temple visits and late-night drop-offs.",
-    },
-    {
-      question: "How much does a local sightseeing taxi cost?",
-      answer:
-        "Pricing depends on duration and vehicle type. Half-day and full-day packages are available with flexible options.",
-    },
-    {
-      question: "Can I book taxi online before arriving?",
-      answer:
-        "Yes, you can enquire and pre-book your taxi online for a hassle-free experience once you arrive in Mathura.",
-    },
-    {
-      question: "Are drivers familiar with temple timings?",
-      answer:
-        "Local drivers are experienced and well aware of temple schedules, traffic patterns, and peak visiting hours.",
-    },
-  ];
+type FAQSType = {
+  question: string;
+  answer: string;
+};
 
-  const [activeIndex, setActiveIndex] = useState(0);
+export default function BlogFAQSection({ faqs }: { faqs: FAQSType[] }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   return (
     <section className="w-full py-20 bg-gradient-to-br from-sky-50 via-white to-blue-50 px-6 lg:px-16">
-      <div className="px-6 lg:px-16">
+      <div className="max-w-7xl mx-auto">
 
         {/* Section Title */}
         <div className="text-center mb-14">
@@ -42,7 +24,64 @@ export default function BlogFAQSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-10">
+        {/* ================= MOBILE ACCORDION ================= */}
+        <div className="lg:hidden space-y-4">
+          {faqs.map((faq, index) => {
+            const isActive = activeIndex === index;
+
+            return (
+              <div
+                key={index}
+                className={`rounded-2xl border transition-all duration-300 overflow-hidden
+                ${
+                  isActive
+                    ? "bg-sky-50 border-sky-400 shadow-md"
+                    : "bg-white border-sky-100 hover:border-sky-300"
+                }`}
+              >
+                {/* Question Button */}
+                <button
+                  onClick={() => setActiveIndex(isActive ? null : index)}
+                  className="w-full text-left px-5 py-4 flex justify-between items-center"
+                >
+                  <span
+                    className={`font-semibold transition-colors duration-300 ${
+                      isActive ? "text-sky-700" : "text-gray-800"
+                    }`}
+                  >
+                    {faq.question}
+                  </span>
+
+                  {/* Arrow */}
+                  <span
+                    className={`ml-4 transition-transform duration-500 ease-in-out text-sky-600 ${
+                      isActive ? "rotate-180" : ""
+                    }`}
+                  >
+                    ▼
+                  </span>
+                </button>
+
+                {/* Animated Answer */}
+                <div
+                  className={`grid transition-all duration-500 ease-in-out ${
+                    isActive ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="px-5 pb-5 text-gray-700 leading-relaxed text-sm">
+                      {faq.answer}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+
+        {/* ================= DESKTOP SPLIT LAYOUT ================= */}
+        <div className="hidden lg:grid grid-cols-[1fr_1.5fr] gap-10">
 
           {/* LEFT QUESTION LIST */}
           <div className="space-y-4">
@@ -77,11 +116,11 @@ export default function BlogFAQSection() {
             </div>
 
             <p className="text-gray-700 leading-relaxed mt-4">
-              {faqs[activeIndex].answer}
+              {faqs[activeIndex ?? 0]?.answer}
             </p>
           </div>
-
         </div>
+
       </div>
     </section>
   );

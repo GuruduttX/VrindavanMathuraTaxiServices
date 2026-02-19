@@ -1,11 +1,51 @@
 "use client"
 
+import { supabase } from "@/lib/supabase/SupabaseConfig";
 import { X, Filter } from "lucide-react"
+import { useEffect, useState } from "react";
 
-const cabTypes = ["Hatchback", "Sedan", "SUV", "Minibus"]
+type Car = {
+  id: string,
+  name: string,
+  seat: string,
+  baseprice: string,
+  cabtype: string,
+  fueltype: string,
+  inclusion: {
+    id: string,
+    description: string
+  }[],
+  exclusion: {
+    id: string,
+    description: string
+  }[],
+  image: string
+}
+
+const cabTypes = ["Hatchback", "Sedan", "SUV", "Minibus", "TempoTravellers"]
 const fuelTypes = ["Petrol", "Diesel", "CNG"]
 
 export default function FiltersPanel() {
+
+  const [cars, setCars] = useState<Car[]>();
+
+  const getCars = async () => {
+    const { data, error } = await supabase.from("Cars").select("*");
+
+
+    if (error) {
+      console.log("The error I have got is : ");
+    }
+
+    setCars(data ?? []);
+
+  }
+
+  useEffect(() => {
+    getCars()
+  }, [])
+
+  
   return (
     <div className="
       w-full max-w-sm
