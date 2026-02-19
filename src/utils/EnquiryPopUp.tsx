@@ -20,7 +20,7 @@ export default function EnquiryPopup({ open, onClose }: Props) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-end md:items-center justify-center">
+    <div className="fixed inset-0 z-[9999] flex items-end md:items-center justify-center">
       {/* BACKDROP */}
       <div
         onClick={onClose}
