@@ -49,11 +49,29 @@ export default function HomeHero() {
                 <HeroSearchSection filter={search} onChange={updateSearch} />
 
 
-                <div className="absolute bottom-10 left-12 md:left-130 lg:left-130 flex justify-center mt-8" onClick={handleSearch}>
-                    <button className="bg-blue-700 hover:bg-blue-900 text-white px-24 py-4 rounded-full text-lg font-semibold shadow-xl cursor-pointer">
-                        SEARCH
-                    </button>
-                </div>
+               <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-full px-6 flex justify-center">
+                        <button
+                            onClick={handleSearch}
+                            className="
+                            w-full sm:w-auto
+                            max-w-xs sm:max-w-none
+                            bg-blue-700 hover:bg-blue-900
+                            text-white
+                            px-10 sm:px-16 lg:px-20
+                            py-3 sm:py-4
+                            rounded-full
+                            text-base sm:text-lg
+                            font-semibold
+                            shadow-xl
+                            transition-all duration-300
+                            hover:scale-105
+                            cursor-pointer
+                            "
+                        >
+                            SEARCH
+                        </button>
+                    </div>
+
 
             </div>
 

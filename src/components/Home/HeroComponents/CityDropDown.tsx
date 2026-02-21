@@ -32,7 +32,7 @@ const CityDropdown = ({
   const [query, setQuery] = useState("")
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  // 🔥 CLOSE ON OUTSIDE CLICK
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (
@@ -61,7 +61,7 @@ const CityDropdown = ({
   return (
     <div
       ref={dropdownRef}
-      className="absolute top-full left-6 z-50 mt-1 w-[320px] bg-white rounded-2xl shadow-2xl border border-sky-100"
+      className="absolute top-full left-0 sm:left-2 md:left-4 lg:left-6 z-50 mt-1 w-[320px] bg-white rounded-2xl shadow-2xl border border-sky-100"
     >
       {/* Search */}
       <div className="flex items-center gap-2 px-4 py-3 border-b">

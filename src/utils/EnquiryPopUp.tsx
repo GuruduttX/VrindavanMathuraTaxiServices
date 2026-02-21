@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { X, MapPin, ArrowRight, Phone } from "lucide-react";
+import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
 
 interface Props {
   open: boolean;
@@ -10,12 +12,74 @@ interface Props {
 
 export default function EnquiryPopup({ open, onClose }: Props) {
   const [visible, setVisible] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    pickup_location: "",
+    drop_location: "",
+    travel_date: "",
+    passengers: "",
+    message : ""
+  });
+
+
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "auto";
     if (open) requestAnimationFrame(() => setVisible(true));
     else setVisible(false);
   }, [open]);
+
+  const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+      setForm({...form, [e.target.name] : e.target.value});
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          form_type: "PopUp Enquiry Form",
+
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          pickup_location: form.pickup_location,
+          drop_location: form.drop_location,
+          message : form.message,
+          passengers : form.passengers,
+
+          from: "N/A",
+          to: "N/A",
+          departure_date: "N/A",
+          return_date: "N/A",
+          pickup_time: "N/A",
+          drop_time: "N/A",
+          trip_type: "N/A",
+          car_name: "N/A",
+          cab_type: "N/A",
+          fuel_type: "N/A",
+          car_seat: "N/A",
+          car_price: "N/A",
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+
+      console.log("Good");
+
+      toast.success("Enquiry Sent Successfully ");
+      onClose();
+
+    } catch (error) {
+      toast.error("Failed to sent mail");
+      console.log("Email Error:", error);
+    }
+  };
+
 
   if (!open) return null;
 
@@ -49,7 +113,7 @@ export default function EnquiryPopup({ open, onClose }: Props) {
           {/* CLOSE BUTTON */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-20 bg-white p-2 rounded-full shadow hover:rotate-90 transition"
+            className="absolute cursor-pointer top-4 right-4 z-20 bg-white p-2 rounded-full shadow hover:rotate-90 transition"
           >
             <X size={18} />
           </button>
@@ -87,17 +151,94 @@ export default function EnquiryPopup({ open, onClose }: Props) {
           <form
             className="
               w-full
-              px-4 sm:px-6 md:px-8
+              px-4 sm:px-6 md:px-10
               py-5 md:py-6
               grid grid-cols-1 gap-4
               overflow-y-auto
               h-full md:h-auto
             "
+            onSubmit={handleSubmit}
           >
-            <Input label="Pickup Location" icon={<MapPin size={16} />} />
-            <Input label="Drop Location" icon={<MapPin size={16} />} />
-            <Input label="Travel Date" type="date" />
-            <Input label="Passengers" />
+
+            <div className="flex gap-6">
+
+              <Input
+              label="Name"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+          />
+
+             <Input
+              label="Email"
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+          />
+
+           </div>
+        
+            
+
+          <div className="flex gap-6">
+
+          
+
+          <Input
+            label="Phone"
+            name="phone"
+            value={form.phone}
+            onChange={handleChange}
+            
+          />
+
+            <Input
+            label="Passengers"
+            name="passengers"
+            value={form.passengers}
+            onChange={handleChange}
+          />
+
+
+          </div>
+
+          
+          <div className="flex gap-6">
+            <Input
+            label="Pickup Location"
+            name="pickup_location"
+            value={form.pickup_location}
+            onChange={handleChange}
+            icon={<MapPin size={16} />}
+          />
+
+          <Input
+            label="Drop Location"
+            name="drop_location"
+            value={form.drop_location}
+            onChange={handleChange}
+            icon={<MapPin size={16} />}
+          />
+
+          </div>
+
+
+
+            <Input
+            label="Travel Date"
+            type="date"
+            name="travel_date"
+            value={form.travel_date}
+            onChange={handleChange}
+          />
+
+         
+
+          
+
+          
+
 
             <textarea
               className="
@@ -111,6 +252,9 @@ export default function EnquiryPopup({ open, onClose }: Props) {
                 outline-none
                 resize-none
               "
+              name="message"
+              value={form.message}
+              onChange={handleChange}
               placeholder="Special needs, night travel, senior citizens, etc."
             />
 
@@ -128,7 +272,7 @@ export default function EnquiryPopup({ open, onClose }: Props) {
                   flex items-center justify-center gap-2
                   shadow-lg
                   transition
-                  active:scale-[0.97]
+                  active:scale-[0.97] cursor-pointer
                 "
               >
                 Start My Journey <ArrowRight />
@@ -146,7 +290,7 @@ export default function EnquiryPopup({ open, onClose }: Props) {
                   font-semibold
                   flex items-center justify-center gap-2
                   hover:bg-green-50
-                  transition
+                  transition cursor-p
                 "
               >
                 <Phone size={18} /> WhatsApp
@@ -187,10 +331,16 @@ function Input({
   label,
   type = "text",
   icon,
+  name,
+  value,
+  onChange,
 }: {
   label: string;
   type?: string;
   icon?: React.ReactNode;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
     <div className="relative">
@@ -199,22 +349,18 @@ function Input({
           {icon}
         </span>
       )}
+
       <input
         type={type}
+        name={name}
         placeholder={label}
-        className={`
-          w-full
-          h-[52px] md:h-[48px]
-          rounded-2xl
-          border border-gray-200
-          px-4 ${icon ? "pl-11" : ""}
-          text-sm
-          focus:ring-2 focus:ring-sky-400
-          focus:border-sky-400
-          outline-none
-          transition
-        `}
+        value={value}
+        onChange={onChange}
+        className={`w-full h-[52px] rounded-2xl border border-gray-200 px-4 ${
+          icon ? "pl-11" : ""
+        } text-sm focus:ring-2 focus:ring-sky-400 outline-none`}
       />
     </div>
   );
 }
+
