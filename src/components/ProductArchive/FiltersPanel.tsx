@@ -1,109 +1,97 @@
 "use client"
 
-import { supabase } from "@/lib/supabase/SupabaseConfig";
-import { X, Filter } from "lucide-react"
-import { useEffect, useState } from "react";
+import { Filter } from "lucide-react"
 
-type Car = {
-  id: string,
-  name: string,
-  seat: string,
-  baseprice: string,
-  cabtype: string,
-  fueltype: string,
-  inclusion: {
-    id: string,
-    description: string
-  }[],
-  exclusion: {
-    id: string,
-    description: string
-  }[],
-  image: string
-}
-
-const cabTypes = ["Hatchback", "Sedan", "SUV", "Minibus", "TempoTravellers"]
+const cabTypes = ["Hatchback", "Sedan", "SUV", "Minibus", "Tempo"]
 const fuelTypes = ["Petrol", "Diesel", "CNG"]
 
-export default function FiltersPanel() {
+type Props = {
+  selectedCabTypes: string[]
+  selectedFuelTypes: string[]
+  onCabToggle: (label: string) => void
+  onFuelToggle: (label: string) => void
+  onClear: () => void
+}
 
-  const [cars, setCars] = useState<Car[]>();
-
-  const getCars = async () => {
-    const { data, error } = await supabase.from("Cars").select("*");
-
-
-    if (error) {
-      console.log("The error I have got is : ");
-    }
-
-    setCars(data ?? []);
-
-  }
-
-  useEffect(() => {
-    getCars()
-  }, [])
-
-  
+export default function FiltersPanel({
+  selectedCabTypes,
+  selectedFuelTypes,
+  onCabToggle,
+  onFuelToggle,
+  onClear,
+}: Props) {
   return (
-    <div className="
-      w-full max-w-sm
-      bg-white/80 backdrop-blur-xl
-      border border-sky-200
-      rounded-2xl
-      shadow-[0_10px_30px_rgba(3,164,251,0.15)]
-      p-5
-    ">
+    <div
+      className="
+        w-full max-w-sm
+        rounded-3xl
+        border border-sky-200/70
+        bg-white/80 backdrop-blur-xl
+        shadow-[0_20px_45px_rgba(14,165,233,0.25)]
+        p-6 relative overflow-hidden
+      "
+    >
+      {/* Ambient Glow */}
+      <div className="absolute -top-20 -right-20 h-40 w-40 bg-sky-300/30 blur-3xl rounded-full pointer-events-none"/>
+
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
-          <div className="p-2 rounded-lg bg-sky-100 text-sky-600">
+      <div className="relative flex items-center justify-between mb-7">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-xl bg-sky-100 text-sky-600">
             <Filter size={18} />
           </div>
-          <h3 className="text-lg font-semibold text-sky-900">
+          <h3 className="text-lg font-bold text-sky-900 tracking-wide">
             Filters
           </h3>
         </div>
 
-        <button className="
-          text-sm font-medium
-          text-sky-500
-          hover:text-sky-700
-          transition
-        ">
+        <button
+          onClick={onClear}
+          className="
+            text-xs font-semibold
+            px-3 py-1.5 rounded-full
+            bg-sky-50 text-sky-600
+            hover:bg-sky-100 hover:text-sky-800
+            transition-all duration-200
+          "
+        >
           Clear All
         </button>
       </div>
 
-      {/* Filter Sections */}
-      <div className="space-y-6">
+      {/* Cab Type */}
+      <FilterSection title="Cab Type">
+        {cabTypes.map(type => (
+          <Checkbox
+            key={type}
+            label={type}
+            checked={selectedCabTypes.includes(type)}
+            onChange={() => onCabToggle(type)}
+          />
+        ))}
+      </FilterSection>
 
-        {/* Cab Type */}
-        <FilterSection title="Cab Type">
-          {cabTypes.map(type => (
-            <FilterCheckbox key={type} label={type} />
-          ))}
-        </FilterSection>
+      {/* Divider */}
+      <div className="my-6 h-px bg-gradient-to-r from-transparent via-sky-200 to-transparent" />
 
-        {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-sky-200 to-transparent" />
-
-        {/* Fuel Type */}
-        <FilterSection title="Fuel Type">
-          {fuelTypes.map(fuel => (
-            <FilterCheckbox key={fuel} label={fuel} />
-          ))}
-        </FilterSection>
-
-      </div>
+      {/* Fuel Type */}
+      <FilterSection title="Fuel Type">
+        {fuelTypes.map(type => (
+          <Checkbox
+            key={type}
+            label={type}
+            checked={selectedFuelTypes.includes(type)}
+            onChange={() => onFuelToggle(type)}
+          />
+        ))}
+      </FilterSection>
     </div>
   )
 }
 
-/* ---------------------------------- */
+/* -------------------- */
 /* Reusable Components */
-/* ---------------------------------- */
+/* -------------------- */
 
 function FilterSection({
   title,
@@ -114,50 +102,60 @@ function FilterSection({
 }) {
   return (
     <div>
-      <h4 className="mb-3 text-sm font-semibold text-sky-800 tracking-wide">
+      <h4 className="mb-4 text-sm font-semibold text-sky-800 tracking-wide">
         {title}
       </h4>
-      <div className="space-y-2">
-        {children}
-      </div>
+      <div className="space-y-3">{children}</div>
     </div>
   )
 }
 
-function FilterCheckbox({ label }: { label: string }) {
+function Checkbox({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string
+  checked: boolean
+  onChange: () => void
+}) {
   return (
-    <label className="
-      group flex items-center justify-between
-      p-3 rounded-xl
-      bg-sky-50/70
-      border border-sky-100
-      cursor-pointer
-      hover:bg-sky-100
-      hover:border-sky-300
-      transition-all duration-200
-    ">
-      <span className="text-sm font-medium text-sky-800">
+    <label
+      className={`
+        group flex items-center justify-between
+        px-4 py-3 rounded-xl
+        border border-sky-100
+        bg-sky-50/60
+        cursor-pointer
+        transition-all duration-200
+        hover:bg-sky-100 hover:border-sky-300
+        ${checked ? "bg-sky-100 border-sky-400 shadow-sm" : ""}
+      `}
+    >
+      <span className="text-sm font-medium text-sky-900">
         {label}
       </span>
 
+      {/* Custom Checkbox */}
       <div className="relative">
         <input
           type="checkbox"
+          checked={checked}
+          onChange={onChange}
           className="peer sr-only"
         />
 
-        {/* Custom Checkbox */}
-        <div className="
-          h-5 w-5
-          rounded-md
-          border-2 border-sky-300
-          flex items-center justify-center
-          peer-checked:bg-sky-500
-          peer-checked:border-sky-500
-          transition
-        ">
+        <div
+          className="
+            h-5 w-5 rounded-md
+            border-2 border-sky-300
+            flex items-center justify-center
+            transition-all duration-200
+            peer-checked:bg-sky-500 peer-checked:border-sky-500
+          "
+        >
           <svg
-            className="h-3 w-3 text-white scale-0 peer-checked:scale-100 transition-transform"
+            className="h-3 w-3 text-white scale-0 peer-checked:scale-100 transition-transform duration-200"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

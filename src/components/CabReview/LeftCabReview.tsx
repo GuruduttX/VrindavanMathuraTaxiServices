@@ -1,7 +1,7 @@
 "use client"
 
 import { supabase } from "@/lib/supabase/SupabaseConfig"
-import { CheckCircle, Clock, MapPin } from "lucide-react"
+import { CheckCircle, ChevronDown, Clock, MapPin } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import React, { useEffect, useState } from "react"
 
@@ -26,6 +26,73 @@ type Car = {
 const LeftCabReview = () => {
   const searchParams = useSearchParams();
   const [carData, setCarData] = useState<Car | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const itinerary = [
+    {
+      title: "Pickup & Journey Start",
+      points: [
+        `Pickup from ${searchParams.get("pickup") || searchParams.get("from")} at your selected time`,
+        "Driver will arrive 10 minutes early",
+        "Trip details shared with driver in advance",
+      ],
+    },
+    {
+      title: "Cab & Comfort Details",
+      points: [
+        `${searchParams.get("carname") || "Premium"} ${searchParams.get("cabtype") || "Cab"} allocated`,
+        `${searchParams.get("seat") || "Comfortable"} seating with ample luggage space`,
+        `${searchParams.get("fueltype") || "Efficient"} fuel vehicle with AC`,
+      ],
+    },
+    {
+      title: "Route & Travel Plan",
+      points: [
+        `Travel from ${searchParams.get("from")} to ${searchParams.get("to")} via best available route`,
+        "Safe highway driving with experienced driver",
+        "Short breaks on request",
+      ],
+    },
+    {
+      title: "Inclusions During Trip",
+      points: [
+        "Fuel charges included",
+        "Driver allowance included",
+        "Toll, state tax & parking covered",
+      ],
+    },
+    {
+      title: "Sightseeing & Stops",
+      points: [
+        "Sightseeing stops allowed on request",
+        "Local guidance by experienced driver",
+        "Time managed as per itinerary",
+      ],
+    },
+    {
+      title: "Drop & Completion",
+      points: [
+        `Drop at ${searchParams.get("drop") || searchParams.get("to")}`,
+        "Smooth completion of journey",
+        "Trip summary shared after drop",
+      ],
+    },
+    {
+      title: "Trip Type & Validity",
+      points: [
+        `This is a ${searchParams.get("type") === "round" ? "Round Trip" : "One Way"} booking`,
+        "Route deviation may affect fare",
+        "Extra hours/km billed separately",
+      ],
+    },
+    {
+      title: "Cancellation & Support",
+      points: [
+        "Free cancellation up to 1 hour before pickup",
+        "24x7 customer support available",
+        "Instant assistance in case of delays",
+      ],
+    },
+  ]
 
   const carId = searchParams.get("carId");
   console.log("THE ID OF THE CAR IS : ");
@@ -33,9 +100,9 @@ const LeftCabReview = () => {
 
   const getCarData = async () => {
 
-    const {data , error} = await supabase.from("Cars").select("*").eq("id", carId).single();
+    const { data, error } = await supabase.from("Cars").select("*").eq("id", carId).single();
 
-    if(error) {
+    if (error) {
       console.log("THE ISSUE ARISES IN THE CABREVIEW : ");
       console.log(error);
     }
@@ -46,7 +113,7 @@ const LeftCabReview = () => {
 
   useEffect(() => {
     getCarData();
-  },[])
+  }, [])
   return (
     <div className="lg:col-span-8 space-y-6 animate-fade-in">
 
@@ -127,6 +194,68 @@ const LeftCabReview = () => {
           </p>
         </div>
       </section>
+
+      <div className="space-y-4 cursor-pointer">
+
+        <h3 className="text-lg font-semibold text-sky-900 mb-3">
+          Trip Itinerary
+        </h3>
+        {itinerary.map((item, index) => {
+          const open = openIndex === index
+
+          return (
+            <div
+              key={index}
+              className="
+                rounded-2xl
+                border border-sky-200
+                bg-white/80 backdrop-blur
+                transition-all duration-300 cursor-pointer
+              "
+            >
+              {/* Header */}
+              <button
+                onClick={() =>
+                  setOpenIndex(open ? null : index)
+                }
+                className="
+                  w-full flex items-center justify-between
+                  px-5 py-4
+                  text-left
+                  hover:bg-sky-50
+                  rounded-2xl cursor-pointer
+                "
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-sky-100 text-sky-600">
+                    <MapPin size={16} />
+                  </div>
+                  <span className="font-medium text-sky-900">
+                    {item.title}
+                  </span>
+                </div>
+
+                <ChevronDown
+                  size={18}
+                  className={`text-sky-600 transition-transform ${open ? "rotate-180" : ""
+                    }`}
+                />
+              </button>
+
+              {/* Content */}
+              {open && (
+                <div className="px-6 pb-5 pt-1 animate-fade-in">
+                  <ul className="space-y-2 list-disc pl-5 text-sky-700 text-sm">
+                    {item.points.map((point, i) => (
+                      <li key={i}>{point}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
 
       {/* Traveller Details */}
       <section className="review-card">

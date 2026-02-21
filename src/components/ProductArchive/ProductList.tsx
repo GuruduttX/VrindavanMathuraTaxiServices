@@ -24,33 +24,19 @@ type Car = {
   image: string
 }
 
-export default function ProductsList() {
+export default function ProductsList({cars} : {cars : Car[]}) {
 
   const router = useRouter();
-
-  const [cars, setCars] = useState<Car[]>();
   const searchParams  = useSearchParams();
 
-  const getCars = async () => {
-    const { data, error } = await supabase.from("Cars").select("*");
-    
 
-    if (error) {
-      console.log("The error I have got is : ");
-    }
-
-    setCars(data ?? []);
-
-  }
 
   const handleSelect = ( id : string, name : string , cabtype : string, fueltype: string , seat : string , price : string ) => {
 
     router.push(`/cabs/review?from=${searchParams.get("from")}&to=${searchParams.get("to")}&departure=${searchParams.get("departure")}&return=${searchParams.get("return")}&pickup=${searchParams.get("pickup")}&drop=${searchParams.get("drop")}&type=${searchParams.get("type")}&carname=${name}&cabtype=${cabtype}&fueltype=${fueltype}&carseat=${seat}&carprice=${price}&carId=${id}`)
   }
 
-  useEffect(() => {
-    getCars()
-  }, [])
+
 
   return (
     <div
