@@ -2,7 +2,6 @@ import { ArrowLeftRight, ChevronDown } from 'lucide-react'
 import React, { useRef, useState } from 'react'
 import CityDropdown from './CityDropDown';
 import DateRangePicker from './DateRangePicker';
-import { DateRange } from "react-day-picker"
 import TimePicker from '@/utils/TimePicker';
 
 const OneWayTripFilter = ({ filter, onChange }: any) => {
@@ -33,13 +32,50 @@ const OneWayTripFilter = ({ filter, onChange }: any) => {
         {/* FROM */}
         <div className="col-span-2 relative">
           {/* TRIGGER */}
-          <div
-            className="p-7 bg-sky-50 rounded-2xl border-l-2 border-sky-200 cursor-pointer"
-            onClick={() => setIsFromOpen(true)}
-          >
-            <p className="text-sm text-slate-500">From</p>
-            <h2 className="text-2xl font-bold text-slate-900">{filter.from}</h2>
-          </div>
+            <>
+              {/* ================= MOBILE VERSION ================= */}
+              <div
+                className="lg:hidden flex items-center justify-between bg-sky-50 border border-sky-200 rounded-xl px-4 py-3 cursor-pointer active:scale-[0.98] transition"
+                onClick={() => setIsFromOpen(true)}
+              >
+                <div className="flex flex-col">
+                  <span className="text-xs text-slate-500 uppercase tracking-wide">
+                    From
+                  </span>
+                  <span className="text-base font-semibold text-slate-900 truncate">
+                    {filter.from}
+                  </span>
+                </div>
+
+                <span className="text-sky-500 text-sm font-medium">
+                  Change
+                </span>
+              </div>
+
+              {/* ================= DESKTOP VERSION ================= */}
+              <div
+                className="
+                  hidden lg:block
+                  cursor-pointer
+                  bg-sky-50
+                  rounded-2xl
+                  border-l-2 border-sky-200
+                  p-7
+                  transition-all duration-200
+                  hover:bg-sky-100
+                "
+                onClick={() => setIsFromOpen(true)}
+              >
+                <p className="text-sm text-slate-500">
+                  From
+                </p>
+
+                <h2 className="text-2xl font-bold text-slate-900 truncate">
+                  {filter.from}
+                </h2>
+              </div>
+            </>
+
 
           {/* DROPDOWN (separate) */}
 
@@ -62,16 +98,51 @@ const OneWayTripFilter = ({ filter, onChange }: any) => {
         {/* TO */}
 
         <div className="col-span-2 relative">
+
+          {/* ================= MOBILE VERSION ================= */}
+          
           <div
-            className="p-7 bg-sky-50 rounded-2xl border-l-2 border-sky-200 cursor-pointer"
+            className="lg:hidden flex items-center justify-between bg-sky-50 border border-sky-200 rounded-xl px-4 py-3 cursor-pointer active:scale-[0.98] transition"
             onClick={() => setIsToOpen(true)}
           >
-            <p className="text-sm text-slate-500">From</p>
-            <h2 className="text-2xl font-bold text-slate-900">{filter.to}</h2>
+            <div className="flex flex-col">
+              <span className="text-xs text-slate-500 uppercase tracking-wide">
+                To
+              </span>
+              <span className="text-base font-semibold text-slate-900 truncate">
+                {filter.to}
+              </span>
+            </div>
+
+            <span className="text-sky-500 text-sm font-medium">
+              Change
+            </span>
           </div>
 
-          {/* DROPDOWN (separate) */}
+          {/* ================= DESKTOP VERSION ================= */}
+          <div
+            className="
+              hidden lg:block
+              p-7
+              bg-sky-50
+              rounded-2xl
+              border-l-2 border-sky-200
+              cursor-pointer
+              transition-all duration-200
+              hover:bg-sky-100
+            "
+            onClick={() => setIsToOpen(true)}
+          >
+            <p className="text-sm text-slate-500">
+              To
+            </p>
 
+            <h2 className="text-2xl font-bold text-slate-900 truncate">
+              {filter.to}
+            </h2>
+          </div>
+
+          {/* DROPDOWN */}
           <CityDropdown
             open={isToOpen}
             onClose={() => setIsToOpen(false)}
@@ -80,23 +151,65 @@ const OneWayTripFilter = ({ filter, onChange }: any) => {
           />
         </div>
 
-        {/* DEPARTURE */}
-        <div className="col-span-2 relative cursor-pointer">
+        <div className=' sm:hidden py-2 w-full'/>
 
-          {/* CLICK WRAPPER (invisible) */}
+
+        {/* DEPARTURE */}
+        <div className="col-span-2 relative">
+
+          {/* ================= MOBILE VERSION ================= */}
           <div
             ref={departureRef}
             onClick={() => setDepartureOpen(true)}
+            className="
+              lg:hidden
+              flex items-center justify-between
+              bg-sky-50
+              border border-sky-200
+              rounded-xl
+              px-4 py-3
+              cursor-pointer
+              active:scale-[0.98]
+              transition
+            "
           >
-            <div className="p-5 bg-sky-50 rounded-2xl  border-l-2 border-sky-200 m-2">
-              <div className="flex items-center gap-1 text-sm text-slate-500">
-                Departure <ChevronDown className="w-4 h-4" />
-              </div>
-              <h2 className="text-3xl font-bold">
-                <span className="text-xl font-bold">{filter.departure}</span>
-              </h2>
-              
+            <div className="flex flex-col">
+              <span className="text-xs text-slate-500 uppercase tracking-wide">
+                Departure
+              </span>
+              <span className="text-base font-semibold text-slate-900">
+                {filter.departure}
+              </span>
             </div>
+
+            <ChevronDown className="w-4 h-4 text-sky-500" />
+          </div>
+
+          {/* ================= DESKTOP VERSION ================= */}
+          <div
+            ref={departureRef}
+            onClick={() => setDepartureOpen(true)}
+            className="
+              hidden lg:block
+              p-5
+              bg-sky-50
+              rounded-2xl
+              border-l-2 border-sky-200
+              m-2
+              cursor-pointer
+              transition-all duration-200
+              hover:bg-sky-100
+            "
+          >
+            <div className="flex items-center gap-1 text-sm text-slate-500">
+              Departure <ChevronDown className="w-4 h-4" />
+            </div>
+
+            <h2 className="text-3xl font-bold">
+              <span className="text-xl font-bold">
+                {filter.departure}
+              </span>
+            </h2>
           </div>
 
           {/* DATE RANGE PICKER */}
@@ -109,23 +222,74 @@ const OneWayTripFilter = ({ filter, onChange }: any) => {
           />
         </div>
 
-        {/* RETURN */}
-        <div className="col-span-2 relative cursor-pointer">
+        <div className='sm:hidden py-2 w-full'/>
 
-          {/* CLICK WRAPPER (invisible) */}
+
+        {/* RETURN */}
+        <div className="col-span-2 relative">
+
+          {/* ================= MOBILE VERSION ================= */}
           <div
             ref={returnRef}
             onClick={() => setReturnOpen(true)}
+            className="
+              lg:hidden
+              flex items-center justify-between
+              bg-sky-50
+              border border-sky-200
+              rounded-xl
+              px-4 py-3
+              cursor-pointer
+              active:scale-[0.98]
+              transition
+            "
           >
-            <div className="p-5 bg-sky-50 rounded-2xl  border-l-2 border-sky-200 m-2">
-              <div className="flex items-center gap-1 text-sm text-slate-500">
-                Return <ChevronDown className="w-4 h-4" />
-              </div>
-              <h2 className="text-2xl font-bold">
-                <span className="text-xl font-bold">{filter.return}</span>
-              </h2>
-              
+            <div className="flex flex-col">
+              <span className="text-xs text-slate-500 uppercase tracking-wide">
+                Return
+              </span>
+              <span className="text-base font-semibold text-slate-900">
+                {filter.return}
+              </span>
             </div>
+
+            <ChevronDown
+              className={`w-4 h-4 text-sky-500 transition-transform duration-200 ${
+                returnOpen ? "rotate-180" : ""
+              }`}
+            />
+          </div>
+
+          {/* ================= DESKTOP VERSION ================= */}
+          <div
+            ref={returnRef}
+            onClick={() => setReturnOpen(true)}
+            className="
+              hidden lg:block
+              p-5
+              bg-sky-50
+              rounded-2xl
+              border-l-2 border-sky-200
+              m-2
+              cursor-pointer
+              transition-all duration-200
+              hover:bg-sky-100
+            "
+          >
+            <div className="flex items-center gap-1 text-sm text-slate-500">
+              Return
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-200 ${
+                  returnOpen ? "rotate-180" : ""
+                }`}
+              />
+            </div>
+
+            <h2 className="text-2xl font-bold">
+              <span className="text-xl font-bold">
+                {filter.return}
+              </span>
+            </h2>
           </div>
 
           {/* DATE RANGE PICKER */}
@@ -138,39 +302,142 @@ const OneWayTripFilter = ({ filter, onChange }: any) => {
           />
         </div>
 
+        <div className='sm:hidden py-2 w-full'/>
 
-        {/* PICKUP */}
-        <div className="col-span-2 relative">
-          <div
-            ref={pickupRef}
-            onClick={() => setPickupOpen((prev) => !prev)}
-          >
-            <div className="p-7 bg-sky-50 rounded-2xl border-l-2 border-sky-200 m-2">
-              <div className="flex items-center gap-1 text-sm text-slate-500">
-                Pickup-Time <ChevronDown className="w-4 h-4" />
-              </div>
-              <h2 className="text-xl font-bold">{filter.pickup}</h2>
-              
-            </div>
+
+
+       {/* PICKUP */}
+      <div className="col-span-2 relative">
+
+        {/* ================= MOBILE VERSION ================= */}
+        <div
+          ref={pickupRef}
+          onClick={() => setPickupOpen((prev) => !prev)}
+          className="
+            lg:hidden
+            flex items-center justify-between
+            bg-sky-50
+            border border-sky-200
+            rounded-xl
+            px-4 py-3
+            cursor-pointer
+            active:scale-[0.98]
+            transition
+          "
+        >
+          <div className="flex flex-col">
+            <span className="text-xs text-slate-500 uppercase tracking-wide">
+              Pickup Time
+            </span>
+            <span className="text-base font-semibold text-slate-900">
+              {filter.pickup}
+            </span>
           </div>
 
-          <TimePicker
-            open={pickupOpen}
-            triggerRef={pickupRef}
-            onApply={(time) => onChange("pickup", time)}
-            onClose={() => setPickupOpen(false)}
+          <ChevronDown
+            className={`w-4 h-4 text-sky-500 transition-transform duration-200 ${
+              pickupOpen ? "rotate-180" : ""
+            }`}
           />
         </div>
 
+        {/* ================= DESKTOP VERSION ================= */}
+        <div
+          ref={pickupRef}
+          onClick={() => setPickupOpen((prev) => !prev)}
+          className="
+            hidden lg:block
+            p-7
+            bg-sky-50
+            rounded-2xl
+            border-l-2 border-sky-200
+            m-2
+            cursor-pointer
+            transition-all duration-200
+            hover:bg-sky-100
+          "
+        >
+          <div className="flex items-center gap-1 text-sm text-slate-500">
+            Pickup-Time
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-200 ${
+                pickupOpen ? "rotate-180" : ""
+              }`}
+            />
+          </div>
 
-        {/* DROP */}
-        <div className="col-span-2 p-7 bg-sky-50 rounded-2xl  border-l-2 border-sky-200 m-2">
+          <h2 className="text-xl font-bold">
+            {filter.pickup}
+          </h2>
+        </div>
+
+        {/* TIME PICKER */}
+        <TimePicker
+          open={pickupOpen}
+          triggerRef={pickupRef}
+          onApply={(time) => onChange("pickup", time)}
+          onClose={() => setPickupOpen(false)}
+        />
+      </div>
+
+      <div className='sm:hidden py-2 w-full'/>
+
+
+
+       {/* DROP */}
+      <div className="col-span-2 relative">
+
+        {/* ================= MOBILE VERSION ================= */}
+        <div
+          className="
+            lg:hidden
+            flex items-center justify-between
+            bg-sky-50
+            border border-sky-200
+            rounded-xl
+            px-4 py-3
+            cursor-pointer
+            active:scale-[0.98]
+            transition
+          "
+        >
+          <div className="flex flex-col">
+            <span className="text-xs text-slate-500 uppercase tracking-wide">
+              Drop Time
+            </span>
+            <span className="text-base font-semibold text-slate-900">
+              {filter.drop || "09:45 PM"}
+            </span>
+          </div>
+
+          <ChevronDown className="w-4 h-4 text-sky-500" />
+        </div>
+
+        {/* ================= DESKTOP VERSION ================= */}
+        <div
+          className="
+            hidden lg:block
+            p-7
+            bg-sky-50
+            rounded-2xl
+            border-l-2 border-sky-200
+            m-2
+            cursor-pointer
+            transition-all duration-200
+            hover:bg-sky-100
+          "
+        >
           <div className="flex items-center gap-1 text-sm text-slate-500">
             Drop Time <ChevronDown className="w-4 h-4" />
           </div>
-          <h2 className="text-xl font-bold">09:45 PM</h2>
-          
+
+          <h2 className="text-xl font-bold">
+            {filter.drop || "09:45 PM"}
+          </h2>
         </div>
+
+      </div>
+
 
       </div>
     </div>

@@ -318,3 +318,19 @@ body::-webkit-scrollbar {
   background-color: #e2e8f0; /* slate-200 */
   transition: background-color 0.2s ease;
 }
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.25s ease-out;
+}
+
