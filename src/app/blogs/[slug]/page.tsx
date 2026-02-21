@@ -2,9 +2,7 @@
 import Footer from "@/utils/Footer";
 import Navbar from "@/utils/Navbar";
 import SideForm from "@/components/Blogs/SideForm";
-import Script from "next/script";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import HeroSection from "@/components/Blogs/HeroSection";
 import BlogContentSection from "@/components/Blogs/BlogContentSection";
 import BlogFAQSection from "@/components/Blogs/BlogFAQSection";
@@ -49,7 +47,6 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const blog = await getBlog(slug);
 
-  console.log("This Blog Data", blog);
 
   return (
     <>

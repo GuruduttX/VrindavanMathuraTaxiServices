@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import EnquiryPopup from "@/utils/EnquiryPopUp";
 
 type TypeBlog = {
 
@@ -31,7 +32,9 @@ export default function BlogHero({blog}: {blog : TypeBlog}) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="relative w-full px-6 py-12 lg:px-16">
+    <>
+      <EnquiryPopup open={isOpen} onClose={()=>setIsOpen(false)}/>
+       <section className="relative w-full px-6 py-12 lg:px-16">
 
       {/* Background Gradient */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-100 via-blue-50 to-white" />
@@ -165,7 +168,7 @@ export default function BlogHero({blog}: {blog : TypeBlog}) {
               text-white font-semibold
               shadow-md
               hover:shadow-xl hover:scale-105
-              transition-all duration-300
+              transition-all duration-300 cursor-pointer
             "
           >
             Enquire Now →
@@ -174,5 +177,7 @@ export default function BlogHero({blog}: {blog : TypeBlog}) {
 
       </div>
     </section>
+    </>
+   
   );
 }

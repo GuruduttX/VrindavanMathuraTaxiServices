@@ -99,10 +99,7 @@ const BlogCards = () => {
             }
 
             setBlogs(data || []);
-            console.log(blogs)
 
-            console.log("Blog data ");
-            console.log(data);
 
         }
 

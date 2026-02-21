@@ -1,4 +1,55 @@
+"use client"
+import { useState } from "react";
+import emailjs from '@emailjs/browser'
+import toast from "react-hot-toast";
+
 export default function BlogNewsletter() {
+    const [form, setForm] = useState({name : "", email : ""});
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          form_type: "New Blog Notification Message ",
+
+          name: form.name,
+          email: form.email,
+          phone: "",
+          pickup_location: "",
+          drop_location: "",
+          message : "",
+          passengers : "",
+
+          from: "N/A",
+          to: "N/A",
+          departure_date: "N/A",
+          return_date: "N/A",
+          pickup_time: "N/A",
+          drop_time: "N/A",
+          trip_type: "N/A",
+          car_name: "N/A",
+          cab_type: "N/A",
+          fuel_type: "N/A",
+          car_seat: "N/A",
+          car_price: "N/A",
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+
+      console.log("Good");
+
+      toast.success("Enquiry Sent Successfully ");
+
+    } catch (error) {
+      console.log("Email Error:", error);
+    }
+  };
+
+
   return (
     <section className="
         relative z-50
@@ -36,13 +87,19 @@ export default function BlogNewsletter() {
 
             <input
               type="text"
+              name="name"
               placeholder="First Name"
+              value={form.name}
+              onChange={(e)=>setForm({...form, [e.target.name] : e.target.value})}
               className="w-full px-4 py-3 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-300"
             />
 
             <input
               type="email"
               placeholder="Email"
+              name="email"
+              value={form.email}
+              onChange={(e)=>setForm({...form, [e.target.name] : e.target.value})}
               className="w-full px-4 py-3 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-300"
             />
 
