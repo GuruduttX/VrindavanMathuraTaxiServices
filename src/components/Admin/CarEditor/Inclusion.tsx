@@ -5,7 +5,7 @@ type Inclusions = {
     description: string
 }
 
-const Inclusion = ({ inclusions, setInclusions }: { inclusions: Inclusions[], setInclusions: React.Dispatch<React.SetStateAction<Inclusions[]>>, editorType: "Blog" | "Package" }) => {
+const Inclusion = ({ inclusions, setInclusions }: { inclusions: Inclusions[], setInclusions: React.Dispatch<React.SetStateAction<Inclusions[]>>, editorType: "Blog" | "Car" }) => {
 
 
     const handleAddInclusions = () => {

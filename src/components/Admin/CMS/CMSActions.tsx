@@ -2,7 +2,7 @@ import React from 'react'
 
 interface CMSActionsProps {
     actionType : 'create' | 'update';
-    editorType : "Blog" | "Package"
+    editorType : "Blog" | "Car"
     onPreview : ()=>void;
     onPublish : ()=>void;
     loading? :boolean;

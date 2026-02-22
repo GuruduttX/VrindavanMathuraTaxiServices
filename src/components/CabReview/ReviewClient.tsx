@@ -5,24 +5,36 @@ import LeftCabReview from "./LeftCabReview";
 import RightCabSection from "./RightCabSection";
 import Footer from "@/utils/Footer";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
 
 export default function ReviewClient() {
   const searchParams = useSearchParams();
 
-  useEffect(() => {
+  const [form , setForm] = useState({
+    fullName : "",
+    phone : "",
+    email : ""
+  });
 
-    const sendMail = async () => {
+  const updateForm = (field: string, value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+
+    const handleSendMail = async () => {
       try {
         await emailjs.send(
           process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
           process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
           {
             form_type: "Search Bar Query", 
-            name: "N/A",
-            email :  "N/A",
-            phone :   "N/A",
+            name: form.fullName,
+            email :  form.email,
+            phone :   form.phone,
             pickup_location :"N/A",
             drop_location :"N/A",
             passengers : 'N/A',
@@ -50,18 +62,14 @@ export default function ReviewClient() {
       }
     };
 
-    sendMail();
-
-  }, [searchParams]);
-
   return (
     <>
       <NormalNavbar />
 
       <section className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100">
         <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <LeftCabReview />
-          <RightCabSection />
+          <LeftCabReview onChange={updateForm}/>
+          <RightCabSection send={handleSendMail} price={searchParams.get("carprice")}/>
         </div>
       </section>
 

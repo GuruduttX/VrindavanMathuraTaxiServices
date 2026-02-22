@@ -12,7 +12,7 @@ export default function NormalNavbar() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="h-12 w-[15vw] rounded-full bg-gradient-to-br from-sky-50 to-cyan-100 flex items-center justify-center p-5">
+          <div className="h-12 w-35 md:w-45 lg:w-45 rounded-full bg-gradient-to-br from-sky-50 to-cyan-100 flex items-center justify-center p-5">
           <Image
           src="/Experience_my_India.webp"
           height={50}

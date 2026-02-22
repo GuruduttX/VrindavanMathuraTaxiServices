@@ -1,30 +1,24 @@
 "use client"
-import CMSActions from '@/components/Admin/CMS/CMSActions';
-import CMSHeader from '@/components/Admin/CMS/CMSHeader';
-import CMSMediaSection from '@/components/Admin/CMS/CMSMediaSection';
-import CMSMetaSection from '@/components/Admin/CMS/CMSMetaSection';
-import CMSSeoSection from '@/components/Admin/CMS/CMSSeoSection';
-import FaqHandler from '@/components/Admin/CMS/FaqHandler';
-import { useState } from 'react';
-import { supabase } from '@/lib/supabase/SupabaseConfig';
-import toast from 'react-hot-toast';
-import PackageDetails from '@/components/Admin/PackageEditor/PackageDetails';
-import TripHighlights from '@/components/Admin/PackageEditor/TripHighlights';
-import Inclusion from '@/components/Admin/PackageEditor/Inclusion';
-import Exclusion from '@/components/Admin/PackageEditor/Exclusion';
-import CMSSchema from '@/components/Admin/CMS/CMSSchema';
-import SelectedInclusion from '@/components/Admin/PackageEditor/SelectedInclusion';
 
-
+import { useState } from "react"
+import { supabase } from "@/lib/supabase/SupabaseConfig"
+import toast from "react-hot-toast"
+import CMSHeader from "@/components/Admin/CMS/CMSHeader"
+import Inclusion from "@/components/Admin/CarEditor/Inclusion"
+import Exclusion from "@/components/Admin/CarEditor/Exclusion"
+import CMSMediaSection from "@/components/Admin/CMS/CMSMediaSection"
+import CarDetailsSection from "@/components/Admin/CarEditor/CarDetails"
 
 type CarForm = {
-  title: string;
-  category: string,
-  price: string,
-  duration: string,
-  image : string
-  alt : string
-
+  name: string
+  category: string
+  price: string
+  duration: string
+  image: string
+  alt: string
+  seat : string,
+  cabtype : string,
+  fueltype : string
 }
 
 type Inclusions = {
@@ -37,84 +31,90 @@ type Exclusions = {
   description: string
 }
 
-
-
-
-
-
-
 export default function CreateNewPackage() {
 
   const [form, setForm] = useState<CarForm>({
-    title: "",
+    name: "",
     category: "",
     price: "",
-    image : "",
-    alt : ""
-  });
+    duration: "",
+    image: "",
+    alt: "",
+    seat : "",
+    cabtype : "",
+    fueltype : "",
+  })
 
-  
-  const [inclusions, setInclusions] = useState<Inclusions[]>([{id : crypto.randomUUID() , description : ""}]);
-  const [exclusions, setExclusions] = useState<Exclusions[]>([{id : crypto.randomUUID() , description : ""}]);
-  
+  const [inclusions, setInclusions] = useState<Inclusions[]>([
+    { id: crypto.randomUUID(), description: "" }
+  ])
 
+  const [exclusions, setExclusions] = useState<Exclusions[]>([
+    { id: crypto.randomUUID(), description: "" }
+  ])
 
   const updateForm = (field: keyof CarForm, value: string) => {
-    setForm((prev) => {
-      return { ...prev, [field]: value }
-    })
-
+    setForm((prev) => ({
+      ...prev,
+      [field]: value
+    }))
   }
 
-  const handleSave = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-    // browser validation check
     if (!e.currentTarget.checkValidity()) {
-      e.currentTarget.reportValidity();
-      return;
+      e.currentTarget.reportValidity()
+      return
     }
 
     if (!form.image) {
-      toast.error("Package image is missing");
-      return;
-    };
-
-    if (!form.category) {
-      toast.error("Package category is missing");
-      return;
+      toast.error("Car image is missing")
+      return
     }
 
-   
+    if (!form.cabtype) {
+      toast.error("Car cabcategory is missing")
+      return
+    }
+
     const payload = {
+      name: form.name,
+      seat: form.seat,
+      cabtype: form.cabtype,
+      fueltype: form.fueltype,
+      baseprice: form.price,
+      image: form.image,
+      alt: form.alt,
+      inclusion: inclusions,
+      exclusion: exclusions
+    }
 
-      title: form.title,
-      category: form.category,
-      price: form.price,
-      inclusions,
-      exclusions,
-      
-    };
-
-    const { data, error } = await supabase
-      .from("Car")
-      .insert(payload)
-      .select("*")
-      .single();
+    const { error } = await supabase
+      .from("Cars")
+      .insert([payload])   // ✅ must be array
 
     if (error) {
-      toast.error(error.message);
-      return;
+      toast.error(error.message)
+      return
     }
 
-    toast.success("Car Published Successfully");
+    toast.success("Car Published Successfully")
 
-  };
+    // Optional: reset form
+    setForm({
+      name: "",
+      category: "",
+      price: "",
+      duration: "",
+      image: "",
+      alt: "",
+      seat : "",
+      cabtype :"",
+      fueltype : ""
 
-
-  
+    })
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-8 rounded-2xl
@@ -122,15 +122,38 @@ export default function CreateNewPackage() {
       backdrop-blur-xl border border-white/10
       shadow-[0_0_60px_-15px_rgba(56,189,248,0.25)]">
 
-      <form className='space-y-6' onSubmit={handleSave}>
+      <form className="space-y-6" onSubmit={handleSave}>
+
         <CMSHeader editorType="Car" />
-        <Inclusion inclusions={inclusions} setInclusions={setInclusions} editorType='Package' />
-        <Exclusion exclusions={exclusions} setExclusions={setExclusions} editorType='Package' />
-        <CMSMediaSection image={form.image} alt={form.alt} onChange={updateForm} editorType="Package" />
-        
+
+        <CarDetailsSection name={form.name} seat={form.seat} price={form.price} cabtype={form.cabtype} fueltype={form.fueltype} onChange={updateForm} editorType="Car"/>
+
+        <Inclusion
+          inclusions={inclusions}
+          setInclusions={setInclusions}
+          editorType="Car"
+        />
+
+        <Exclusion
+          exclusions={exclusions}
+          setExclusions={setExclusions}
+          editorType="Car"
+        />
+
+        <CMSMediaSection
+          image={form.image}
+          alt={form.alt}
+          onChange={updateForm}
+          editorType="Car"
+        />
+
+        <button
+          type="submit"
+          className="px-6 py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl transition"
+        >
+          Save Package
+        </button>
       </form>
-
     </div>
-
-  );
+  )
 }

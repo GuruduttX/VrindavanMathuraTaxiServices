@@ -9,46 +9,16 @@ import Navbar from "@/utils/Navbar"
 import NormalNavbar from "@/utils/NormalNavbar"
 import TaxiCTASection from "@/utils/TaxiCTASection"
 
-type Car = {
-  id: string,
-  name: string,
-  seat: string,
-  baseprice: string,
-  cabtype: string,
-  fueltype: string,
-  inclusion: {
-    id: string,
-    description: string
-  }[],
-  exclusion: {
-    id: string,
-    description: string
-  }[],
-  image: string
-}
 
-let currentCars : Car[];
 
-const getCars = async () => {
-    const { data, error } = await supabase.from("Cars").select("*");
 
-    if (error) {
-        console.log("THE ERROR WE HAVE GOT IS THE : ");
-        console.log(error);
-    }
 
-    currentCars = data ?? [];
 
-    return data ?? [];
-}
 
-export default async function ProductsPage() {
+export default function ProductsPage() {
 
-    const CarData = await getCars();
 
-    const handleCurrentCars = (cars : Car[]) => {
-        currentCars = cars
-    }
+   
 
     return (
         <>

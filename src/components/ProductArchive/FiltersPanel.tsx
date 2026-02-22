@@ -1,6 +1,7 @@
 "use client"
 
-import { Filter } from "lucide-react"
+import { Filter, ChevronDown } from "lucide-react"
+import { useState } from "react"
 
 const cabTypes = ["Hatchback", "Sedan", "SUV", "Minibus", "Tempo"]
 const fuelTypes = ["Petrol", "Diesel", "CNG"]
@@ -20,77 +21,110 @@ export default function FiltersPanel({
   onFuelToggle,
   onClear,
 }: Props) {
+
+  const [open, setOpen] = useState(false)
+
   return (
-    <div
-      className="
-        w-full max-w-sm
-        rounded-3xl
-        border border-sky-200/70
-        bg-white/80 backdrop-blur-xl
-        shadow-[0_20px_45px_rgba(14,165,233,0.25)]
-        p-6 relative overflow-hidden
-      "
-    >
-      {/* Ambient Glow */}
-      <div className="absolute -top-20 -right-20 h-40 w-40 bg-sky-300/30 blur-3xl rounded-full pointer-events-none"/>
+    <div className="w-full md:max-w-sm">
 
-      {/* Header */}
-      <div className="relative flex items-center justify-between mb-7">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-sky-100 text-sky-600">
-            <Filter size={18} />
-          </div>
-          <h3 className="text-lg font-bold text-sky-900 tracking-wide">
-            Filters
-          </h3>
-        </div>
-
+      {/* 📱 Mobile Toggle Button */}
+      <div className="md:hidden mb-4">
         <button
-          onClick={onClear}
+          onClick={() => setOpen(!open)}
           className="
-            text-xs font-semibold
-            px-3 py-1.5 rounded-full
-            bg-sky-50 text-sky-600
-            hover:bg-sky-100 hover:text-sky-800
-            transition-all duration-200
+            w-full flex items-center justify-between
+            px-5 py-3 rounded-2xl
+            bg-sky-600 text-white font-semibold
+            shadow-lg
           "
         >
-          Clear All
+          <span className="flex items-center gap-2">
+            <Filter size={18} />
+            Filters
+          </span>
+
+          <ChevronDown
+            size={18}
+            className={`transition-transform duration-300 ${
+              open ? "rotate-180" : ""
+            }`}
+          />
         </button>
       </div>
 
-      {/* Cab Type */}
-      <FilterSection title="Cab Type">
-        {cabTypes.map(type => (
-          <Checkbox
-            key={type}
-            label={type}
-            checked={selectedCabTypes.includes(type)}
-            onChange={() => onCabToggle(type)}
-          />
-        ))}
-      </FilterSection>
+      {/* 🔥 Filter Container */}
+      <div
+        className={`
+          rounded-3xl
+          border border-sky-200/70
+          bg-white/80 backdrop-blur-xl
+          shadow-[0_20px_45px_rgba(14,165,233,0.25)]
+          p-6 relative overflow-hidden
+          transition-all duration-300
+          ${open ? "block" : "hidden"}
+          md:block
+        `}
+      >
+        {/* Glow */}
+        <div className="absolute -top-20 -right-20 h-40 w-40 bg-sky-300/30 blur-3xl rounded-full pointer-events-none"/>
 
-      {/* Divider */}
-      <div className="my-6 h-px bg-gradient-to-r from-transparent via-sky-200 to-transparent" />
+        {/* Header */}
+        <div className="relative flex items-center justify-between mb-7">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-sky-100 text-sky-600">
+              <Filter size={18} />
+            </div>
+            <h3 className="text-lg font-bold text-sky-900 tracking-wide">
+              Filters
+            </h3>
+          </div>
 
-      {/* Fuel Type */}
-      <FilterSection title="Fuel Type">
-        {fuelTypes.map(type => (
-          <Checkbox
-            key={type}
-            label={type}
-            checked={selectedFuelTypes.includes(type)}
-            onChange={() => onFuelToggle(type)}
-          />
-        ))}
-      </FilterSection>
+          <button
+            onClick={onClear}
+            className="
+              text-xs font-semibold
+              px-3 py-1.5 rounded-full
+              bg-sky-50 text-sky-600
+              hover:bg-sky-100 hover:text-sky-800
+              transition-all duration-200
+            "
+          >
+            Clear All
+          </button>
+        </div>
+
+        {/* Cab Type */}
+        <FilterSection title="Cab Type">
+          {cabTypes.map((type) => (
+            <Checkbox
+              key={type}
+              label={type}
+              checked={selectedCabTypes.includes(type)}
+              onChange={() => onCabToggle(type)}
+            />
+          ))}
+        </FilterSection>
+
+        <div className="my-6 h-px bg-gradient-to-r from-transparent via-sky-200 to-transparent" />
+
+        {/* Fuel Type */}
+        <FilterSection title="Fuel Type">
+          {fuelTypes.map((type) => (
+            <Checkbox
+              key={type}
+              label={type}
+              checked={selectedFuelTypes.includes(type)}
+              onChange={() => onFuelToggle(type)}
+            />
+          ))}
+        </FilterSection>
+      </div>
     </div>
   )
 }
 
 /* -------------------- */
-/* Reusable Components */
+/* Filter Section */
 /* -------------------- */
 
 function FilterSection({
@@ -101,14 +135,33 @@ function FilterSection({
   children: React.ReactNode
 }) {
   return (
-    <div>
+    <div className="mb-6">
+
       <h4 className="mb-4 text-sm font-semibold text-sky-800 tracking-wide">
         {title}
       </h4>
-      <div className="space-y-3">{children}</div>
+
+      {/* 
+        📱 Mobile → Horizontal scroll
+        💻 md+ → Vertical column
+      */}
+      <div
+        className="
+          flex gap-3
+          overflow-x-auto
+          pb-2
+          md:flex-col md:overflow-visible
+        "
+      >
+        {children}
+      </div>
     </div>
   )
 }
+
+/* -------------------- */
+/* Checkbox */
+/* -------------------- */
 
 function Checkbox({
   label,
@@ -123,6 +176,7 @@ function Checkbox({
     <label
       className={`
         group flex items-center justify-between
+        min-w-[160px] md:min-w-0
         px-4 py-3 rounded-xl
         border border-sky-100
         bg-sky-50/60
@@ -132,11 +186,10 @@ function Checkbox({
         ${checked ? "bg-sky-100 border-sky-400 shadow-sm" : ""}
       `}
     >
-      <span className="text-sm font-medium text-sky-900">
+      <span className="text-sm font-medium text-sky-900 whitespace-nowrap">
         {label}
       </span>
 
-      {/* Custom Checkbox */}
       <div className="relative">
         <input
           type="checkbox"

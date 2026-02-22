@@ -84,10 +84,10 @@ const ProductClient = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4">
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-6">
 
         {/* LEFT FILTERS */}
-        <aside className="col-span-3 pb-8 pt-5">
+        <aside className="col-span-12 md:col-span-3 lg:col-span-3 pb-3 pt-2">
           <FiltersPanel
             selectedCabTypes={selectedCabTypes}
             selectedFuelTypes={selectedFuelTypes}
@@ -98,7 +98,7 @@ const ProductClient = () => {
         </aside>
 
         {/* RIGHT PRODUCTS */}
-        <main className="col-span-9 pb-10">
+        <main className="col-span-12 md:col-span-9 lg:col-span-9 pb-10">
           <ProductsList cars={filteredCars} />
         </main>
 

@@ -1,70 +1,32 @@
 "use client"
-import CMSActions from '@/components/Admin/CMS/CMSActions';
-import CMSContentSection from '@/components/Admin/CMS/CMSContentSection';
-import CMSHeader from '@/components/Admin/CMS/CMSHeader';
-import CMSMediaSection from '@/components/Admin/CMS/CMSMediaSection';
-import CMSMetaSection from '@/components/Admin/CMS/CMSMetaSection';
-import CMSSeoSection from '@/components/Admin/CMS/CMSSeoSection';
-import FaqHandler from '@/components/Admin/CMS/FaqHandler';
-import { useEffect, useState, useSyncExternalStore } from 'react';
-import { supabase } from '@/lib/supabase/SupabaseConfig';
-import toast from 'react-hot-toast';
-import PackageDetails from '@/components/Admin/PackageEditor/PackageDetails';
-import TripHighlights from '@/components/Admin/PackageEditor/TripHighlights';
-import Inclusion from '@/components/Admin/PackageEditor/Inclusion';
-import Exclusion from '@/components/Admin/PackageEditor/Exclusion';
-import Policy from '@/components/Admin/PackageEditor/Policy';
-import Document from '@/components/Admin/PackageEditor/Document';
-import Testimonials from '@/components/Admin/PackageEditor/Testimonials';
-import ItinearyMaker from '@/components/Admin/PackageEditor/Itinerary';
-import { useParams } from 'next/navigation';
-import ChildImagePicker from '@/components/Admin/PackageEditor/ChildImagePicker';
-import CMSSchema from '@/components/Admin/CMS/CMSSchema';
-import DurationSection from '@/components/Admin/PackageEditor/DurationSection';
-import DestRoutes from '@/components/Admin/PackageEditor/DestRoute';
-import SelectedInclusion from '@/components/Admin/PackageEditor/SelectedInclusion';
 
-type PackageForm = {
-  title: string;
-  category: string,
-  slug: string,
-  price: string,
-  duration: string,
-  metaTitle: string,
-  metaDescription: string,
-  schemaTitle : string,
-  schemaDescription : string,
-  image: string,
-  alt: string,
-  refund: string,
-  cancel: string,
-  confirmation: string,
-  payment: string,
-  day: string,
-  night: string,
-  reviews : string;
-  rating : string;
-  breakfast_included : boolean;
-  stay_included  : boolean;
-  transfer_included : boolean;
-  sightseeing_included  : boolean
-}
+import { useEffect, useState } from "react"
+import { supabase } from "@/lib/supabase/SupabaseConfig"
+import { useParams } from "next/navigation"
+import toast from "react-hot-toast"
 
-type FAQ = {
-  id: string,
-  question: string,
-  answer: string
-}
+import CMSHeader from "@/components/Admin/CMS/CMSHeader"
+import CMSMediaSection from "@/components/Admin/CMS/CMSMediaSection"
+import CMSLoading from "@/components/Admin/CMS/CMSLoading"
+import CMSActions from "@/components/Admin/CMS/CMSActions"
 
-type Testimonial = {
-  id: string,
-  name: string,
-  description: string
-}
+import CarDetailsSection from "@/components/Admin/CarEditor/CarDetails"
+import Inclusion from "@/components/Admin/CarEditor/Inclusion"
+import Exclusion from "@/components/Admin/CarEditor/Exclusion"
 
-type HighLights = {
-  id: string
-  description: string
+
+/* ================= TYPES ================= */
+
+type CarForm = {
+  name: string
+  category: string
+  price: string
+  duration: string
+  image: string
+  alt: string
+  seat: string
+  cabtype: string
+  fueltype: string
 }
 
 type Inclusions = {
@@ -77,272 +39,125 @@ type Exclusions = {
   description: string
 }
 
-type Documents = {
-  id: string
-  description: string
-}
+/* ================= COMPONENT ================= */
 
-type Itinerary = {
-  id: string
-  day: number,
-  title: string,
-  description: string
-}
+export default function CarEditor() {
 
-type ChildImage = {
-  id : string,
-  image : string,
-  alt : string
-}
+  const { id } = useParams()
 
-type BreakdownItem = {
-   id : string;
-   days : string;
-   place : string;
-}
+  const [form, setForm] = useState<CarForm>({
+    name: "",
+    category: "",
+    price: "",
+    duration: "",
+    image: "",
+    alt: "",
+    seat: "",
+    cabtype: "",
+    fueltype: ""
+  })
 
-type SegmentType = {
-  id: string;
-  from: string;
-  to: string;
-};
-
-type RouteType = {
-  source: string;
-  destination: string;
-  segments: SegmentType[];
-};
+  const [inclusions, setInclusions] = useState<Inclusions[]>([])
+  const [exclusions, setExclusions] = useState<Exclusions[]>([])
+  const [loading, setLoading] = useState(true)
 
 
-
-
-export default function CreateNewPackage() {
-
-  const { id } = useParams();
-
- const [form, setForm] = useState<PackageForm>({
-     title: "",
-     category: "",
-     slug: "",
-     price: "",
-     duration: "",
-     day: "",
-     night: "",
-     metaTitle: "",
-     metaDescription: "",
-     schemaTitle : "",
-     schemaDescription : "",
-     image: "",
-     alt: "",
-     refund: "",
-     cancel: "",
-     confirmation: "",
-     payment: "",
-     reviews : "",
-     rating : "",
-     breakfast_included : false,
-     stay_included  : false,
-     transfer_included : false,
-     sightseeing_included  : false
-   });
-
-  
-    const[childImage , setChildImage] = useState<ChildImage[]>([]);
-    const [faqs, setFaqs] = useState<FAQ[]>([{id : crypto.randomUUID() , question : "",  answer : ""}]);
-    const [testimonials, setTestimonials] = useState<Testimonial[]>([{id : crypto.randomUUID() , name : "", description : ""}]);
-    const [highLights, setHighLights] = useState<HighLights[]>([{id : crypto.randomUUID() , description : ""}]);
-    const [inclusions, setInclusions] = useState<Inclusions[]>([{id : crypto.randomUUID() , description : ""}]);
-    const [exclusions, setExclusions] = useState<Exclusions[]>([{id : crypto.randomUUID() , description : ""}]);
-    const [documents, setDocuments] = useState<Documents[]>([{id : crypto.randomUUID() , description : ""}]);
-    const [itinerary, setItinerary] = useState<Itinerary[]>([{id : crypto.randomUUID() ,  day : 1, title : "", description : ""}]);
-    const [breakdown, setBreakdown] = useState<BreakdownItem[]>([
-        { id: crypto.randomUUID(), days: "0", place: "" },
-      ]);
-    const [route, setRoute] = useState<RouteType>({source : "", destination : "", segments : []});
+  /* ================= FETCH EXISTING CAR ================= */
 
   useEffect(() => {
-    const getBlogs = async () => {
-      const { data, error } = await supabase.from('Package').select('*').eq('id', id).single();
+
+    const getCar = async () => {
+
+      const { data, error } = await supabase
+        .from("Cars")
+        .select("*")
+        .eq("id", id)
+        .single()
 
       if (error) {
-        console.log(error);
-        return;
+        toast.error(error.message)
+        return
       }
 
       setForm({
-
-        title: data.title ?? "",
-        price: data.price,
-        duration: data.duration,
+        name: data.name ?? "",
         category: data.category ?? "",
-        slug: data.slug ?? "",
-        metaTitle: data.meta?.title ?? "",
-        metaDescription: data.meta?.description ?? "",
-        schemaTitle : data?.schema?.title ?? "",
-        schemaDescription : data?.schema?.description ?? "",
-        image: data.heroimage.image ?? "",
-        alt: data.heroimage.alt ?? "",
-        refund: data.policies[0].description ?? "",
-        cancel: data.policies[1].description ?? "",
-        confirmation: data.policies[2].description ?? "",
-        payment: data.policies[3].description ?? "",
-        day : data.day ?? "",
-        night : data.day ?? "",
-        reviews : data.reviews ?? "",
-        rating : data.rating ?? "",
+        price: data.baseprice ?? "",
+        duration: data.duration ?? "",
+        image: data.image ?? "",
+        alt: data.alt ?? "",
+        seat: data.seat ?? "",
+        cabtype: data.cabtype ?? "",
+        fueltype: data.fueltype ?? ""
+      })
 
-        breakfast_included : data.breakfast_included ,
-        stay_included  : data.stay_included,
-        transfer_included : data.transfer_included,
-        sightseeing_included  : data.sightseeing_included
+      setInclusions(data.inclusion ?? [])
+      setExclusions(data.exclusion ?? [])
 
-      });
-
-      setFaqs(data.faqs ?? []);
-
-      setTestimonials(data.testimonials ?? [])
-      setHighLights(data.highlights ?? [])
-      setInclusions(data.inclusions ?? [])
-      setExclusions(data.exclusions ?? [])
-      setDocuments(data.documents ?? [])
-      setItinerary(data.itinerary ?? [])
-      setChildImage(data.childImage ?? []);
-      setBreakdown(data.durationbreakdown ?? []);
-      setRoute(data.destroutes ?? {source: "", destination : "", segments : []})
-     
-
+      setLoading(false)
     }
 
-    getBlogs();
+    if (id) getCar()
 
-  }, [id]);
+  }, [id])
 
 
-  const updateForm = (field: keyof PackageForm, value: string) => {
-    setForm((prev) => {
-      return { ...prev, [field]: value }
-    })
+  /* ================= UPDATE HANDLER ================= */
 
+  const updateForm = (field: keyof CarForm, value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      [field]: value
+    }))
   }
 
-  const handleSave = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
 
-    // browser validation check
-    if (!e.currentTarget.checkValidity()) {
-      e.currentTarget.reportValidity();
-      return;
-    }
+  /* ================= SAVE UPDATE ================= */
+
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
     if (!form.image) {
-      toast.error("Package image is missing");
-      return;
-    };
-
-    if (!form.category) {
-      toast.error("Package category is missing");
-      return;
-    }
-    if(childImage.length < 4 || !childImage[0].image || !childImage[1].image || !childImage[2].image || !childImage[3].image){
-      toast.error(`You Only Add ${childImage.length} Child Images But We Need To Add 4 Child Images : `)
-      return;
+      toast.error("Car image is missing")
+      return
     }
 
-    const { data: existingData, error: existingError } = await supabase
-      .from("Package")
-      .select("id")
-      .eq("slug", form.slug);
-
-     if (existingData &&  (existingData.length > 1 ||  (existingData?.length==1 && existingData[0].id !== id))) {
-      toast.error("Slug already exists");
-      return;
+    if (!form.cabtype) {
+      toast.error("Cab category is required")
+      return
     }
 
-
-    const payload = {
-      title: form.title,
-      category: form.category,
-      slug: form.slug,
-      price: form.price,
-      day : form.day,
-      night : form.night,
-      reviews : form.reviews,
-      rating : form.rating,
-      heroimage: {
+    const { error } = await supabase
+      .from("Cars")
+      .update({
+        name: form.name,
+        seat: form.seat,
+        cabtype: form.cabtype,
+        fueltype: form.fueltype,
+        baseprice: form.price,
         image: form.image,
-        alt: form.alt
-      },
-      duration: form.duration,
-      meta: {
-        title: form.metaTitle,
-        description: form.metaDescription
-      },
-      schema : {
-        title : form.schemaTitle,
-        description : form.schemaDescription
-      },
-      policies: [
-        {
-          id : crypto.randomUUID(),
-          title : "Refund Policy",
-          description : form.refund
-        },
-        {
-          id : crypto.randomUUID(),
-          title : "Cancel Policy",
-          description : form.cancel
-        },
-       {
-          id : crypto.randomUUID(),
-          title : "Confirmation  Policy",
-          description : form.confirmation
-        },
-        {
-          id : crypto.randomUUID(),
-          title : "Payment Ploicy",
-          description : form.payment
-        }
-
-      ],
-      childImage ,
-     
-      faqs,
-      testimonials,
-      highlights: highLights,
-      inclusions,
-      exclusions,
-      documents,
-      itinerary,
-      durationbreakdown : breakdown,
-      destroutes : route,
-      breakfast_included : form.breakfast_included ,
-      stay_included  : form.stay_included,
-      transfer_included : form.transfer_included,
-      sightseeing_included  : form.sightseeing_included
-    };
-
-    const { data, error } = await supabase
-      .from("Package")
-      .update(payload)
+        alt: form.alt,
+        inclusion: inclusions,
+        exclusion: exclusions
+      })
       .eq("id", id)
 
     if (error) {
-      toast.error(error.message);
-      return;
+      toast.error(error.message)
+      return
     }
 
-    toast.success("Package Published Successfully");
-  };
+    toast.success("Car Updated Successfully")
+  }
 
 
-  const handlePreview = () => {
-  };
+  const handlePreview = () => {}
 
-  const handlePublish = async () => {
-    // await publishPackageAction(packageId);
-  };
+  const handlePublish = async () => {}
+
+
+  if (loading) return <CMSLoading />
+
 
   return (
     <div className="max-w-6xl mx-auto p-8 rounded-2xl
@@ -350,29 +165,47 @@ export default function CreateNewPackage() {
       backdrop-blur-xl border border-white/10
       shadow-[0_0_60px_-15px_rgba(56,189,248,0.25)]">
 
-      <form className='space-y-6' onSubmit={handleSave}>
-        <CMSHeader editorType="Package" />
-        <CMSMetaSection title={form.title} category={form.category} slug={form.slug} onChange={updateForm} editorType="Package" />
-        <PackageDetails reviews={form.reviews} rating={form.rating} price={form.price} duration={form.duration} onChange={updateForm} editorType="Package" />
-        <CMSSeoSection metaTitle={form.metaTitle} metaDescription={form.metaDescription} onChange={updateForm} editorType="Package" />
-        <CMSSchema schemaTitle={form.schemaTitle} schemaDescription={form.schemaDescription} onChange={updateForm} editorType='Package' />
-        <SelectedInclusion transfer_included={form.transfer_included} breakfast_included={form.breakfast_included} stay_included={form.stay_included} sightseeing_included={form.sightseeing_included} onChange={updateForm}/>
-        <DurationSection days={form.day} nights={form.night} onChange={updateForm} breakdown={breakdown} setBreakdown={setBreakdown} />
-        <DestRoutes route={route} setRoute={setRoute}/>
-        <ItinearyMaker itinerary={itinerary} setItinerary={setItinerary} editorType='Package' />
-        <FaqHandler faqs={faqs} setFaqs={setFaqs} editorType="Package" />
-        <TripHighlights highLights={highLights} setHighLights={setHighLights} editorType='Package' />
-        <Inclusion inclusions={inclusions} setInclusions={setInclusions} editorType='Package' />
-        <Exclusion exclusions={exclusions} setExclusions={setExclusions} editorType='Package' />
-        <Testimonials testimonials={testimonials} setTestimonials={setTestimonials} editorType='Package' />
-        <Document documents={documents} setDocuments={setDocuments} editorType='Package' />
-        <Policy refund={form.refund} cancel={form.cancel} confirm={form.confirmation} payment={form.payment} editorType='Package' onChange={updateForm} />
-        <CMSMediaSection image={form.image} alt={form.alt} onChange={updateForm} editorType="Package" />
-        <ChildImagePicker childImage={childImage} setChildImage={setChildImage}/>
-        <CMSActions actionType='create' editorType='Package' onPreview={handlePreview} onPublish={handlePublish} />
+      <form className="space-y-6" onSubmit={handleSave}>
+
+        <CMSHeader editorType="Car" />
+
+        <CarDetailsSection
+          name={form.name}
+          seat={form.seat}
+          price={form.price}
+          cabtype={form.cabtype}
+          fueltype={form.fueltype}
+          onChange={updateForm}
+          editorType="Car"
+        />
+
+        <Inclusion
+          inclusions={inclusions}
+          setInclusions={setInclusions}
+          editorType="Car"
+        />
+
+        <Exclusion
+          exclusions={exclusions}
+          setExclusions={setExclusions}
+          editorType="Car"
+        />
+
+        <CMSMediaSection
+          image={form.image}
+          alt={form.alt}
+          onChange={updateForm}
+          editorType="Car"
+        />
+
+        <CMSActions
+          actionType="update"
+          editorType="Car"
+          onPreview={handlePreview}
+          onPublish={handlePublish}
+        />
+
       </form>
-
     </div>
-
-  );
+  )
 }

@@ -67,7 +67,7 @@ export default function Blogs() {
             </p>
 
             {/* Action Button */}
-            <Link href={`/admin-x9AqP7mK2/products/${mode.route}`}>
+            <Link href={`/admin-x9AqP7mK2/cars/${mode.route}`}>
               <button
                 className={`mt-auto w-full py-2 rounded-lg font-medium bg-gradient-to-r cursor-pointer ${mode.gradient} hover:opacity-90 transition`}
               >

@@ -23,7 +23,7 @@ type Car = {
   image: string
 }
 
-const LeftCabReview = () => {
+const LeftCabReview = ({ onChange }: any) => {
   const searchParams = useSearchParams();
   const [carData, setCarData] = useState<Car | null>(null);
   const [openIndex, setOpenIndex] = useState<number | null>(0)
@@ -117,6 +117,23 @@ const LeftCabReview = () => {
   return (
     <div className="lg:col-span-8 space-y-6 animate-fade-in">
 
+      {/* Traveller Details */}
+      <section className="review-card">
+        <h3 className="font-semibold text-sky-900 mb-4">
+          Traveller Details
+        </h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input placeholder="Full Name" className="input-sky" onChange={(e) => { onChange("fullName", e.target.value) }} />
+          <input placeholder="Mobile Number" className="input-sky" onChange={(e) => { onChange("phone", e.target.value) }} />
+          <input
+            placeholder="Email Address"
+            className="input-sky md:col-span-2"
+            onChange={(e) => { onChange("email", e.target.value) }}
+          />
+        </div>
+      </section>
+
       {/* Trip Summary */}
       <section className="review-card">
         <h2 className="text-xl font-semibold text-sky-900 mb-2">
@@ -160,6 +177,29 @@ const LeftCabReview = () => {
 
         <ul className="space-y-3">
           {carData?.inclusion.map((item) => (
+            <li
+              key={item.id}
+              className="
+                flex items-center gap-3
+                text-sky-700
+                transition
+                hover:translate-x-1
+              "
+            >
+              <CheckCircle size={18} className="text-sky-500" />
+              {item.description}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="review-card">
+        <h3 className="font-semibold text-sky-900 mb-4">
+          Exclusions
+        </h3>
+
+        <ul className="space-y-3">
+          {carData?.exclusion.map((item) => (
             <li
               key={item.id}
               className="
@@ -257,21 +297,7 @@ const LeftCabReview = () => {
         })}
       </div>
 
-      {/* Traveller Details */}
-      <section className="review-card">
-        <h3 className="font-semibold text-sky-900 mb-4">
-          Traveller Details
-        </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input placeholder="Full Name" className="input-sky" />
-          <input placeholder="Mobile Number" className="input-sky" />
-          <input
-            placeholder="Email Address"
-            className="input-sky md:col-span-2"
-          />
-        </div>
-      </section>
 
     </div>
   )

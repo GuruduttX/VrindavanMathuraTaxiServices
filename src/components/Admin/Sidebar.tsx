@@ -13,7 +13,7 @@ import { useState } from "react";
 const menu = [
     { name: "Dashboard", icon: LayoutDashboard, slug: "/admin-x9AqP7mK2" },
     { name: "Blog Editor", icon: FileText, slug: "/admin-x9AqP7mK2/blogs" },
-    { name: "Product Editor", icon: Package, slug: "/admin-x9AqP7mK2/products" },
+    { name: "Car Editor", icon: Package, slug: "/admin-x9AqP7mK2/cars" },
     { name: "User Management", icon: Users, slug: "/admin-x9AqP7mK2" },
     { name: "Settings Panel", icon: Settings, slug: "/admin-x9AqP7mK2" },
 ];

@@ -28,20 +28,20 @@ export default function TaxiCTASection() {
 
           {/* Left Content */}
           <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+            <h2 className="text-xl md:text-4xl font-bold text-white leading-tight">
               Book Trusted Taxi Services in
               <span className="block text-sky-100">
                 Mathura & Vrindavan
               </span>
             </h2>
 
-            <p className="mt-4 text-sky-100 text-lg">
+            <p className="mt-4 text-sky-100 text-md md:text-lg lg:text-lg">
               Professional drivers, clean AC cabs, transparent pricing and
               24×7 availability for local & outstation journeys.
             </p>
 
             {/* Trust Points */}
-            <div className="mt-6 flex flex-wrap gap-4 text-sm text-sky-100">
+            <div className="mt-6 flex flex-wrap gap-4 text-xs md:text-sm text-sky-100">
               <span className="px-3 py-1 rounded-full bg-white/10">
                 ✔ Local Braj Drivers
               </span>
@@ -55,17 +55,17 @@ export default function TaxiCTASection() {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex gap-4">
             
             {/* Primary CTA */}
             <button
               className="
                 group
                 inline-flex items-center justify-center gap-2
-                px-8 py-4
+                px-4 py-2 md:px-8 lg:px-8 md:py-4 lg:py-4
                 rounded-xl
                 bg-white text-sky-700
-                font-semibold
+                font-light md:font-semibold lg:font-semibold
                 cursor-pointer
                 shadow-lg
                 transition-all duration-300
@@ -84,7 +84,7 @@ export default function TaxiCTASection() {
             <button
               className="
                 inline-flex items-center justify-center gap-2
-                px-8 py-4
+                px-4 py-2 md:px-8 lg:px-8 md:py-4 lg:py-4
                 rounded-xl
                 border border-white/40
                 text-white

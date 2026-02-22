@@ -2,7 +2,7 @@ import React from "react";
 import { supabase } from "@/lib/supabase/SupabaseConfig";
 import toast from "react-hot-toast";
 
-type EditorType = "Blog" | "Package";
+type EditorType = "Blog" | "Car";
 
 interface CMSMediaSectionProps {
   image: string;
@@ -18,7 +18,7 @@ const CMSMediaSection = ({
   editorType,
 }: CMSMediaSectionProps) => {
 
-  const bucketName = editorType === "Blog" ? "BlogImages" : "ProductImages";
+  const bucketName = editorType === "Blog" ? "BlogImages" : "CarImages";
 
   const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>

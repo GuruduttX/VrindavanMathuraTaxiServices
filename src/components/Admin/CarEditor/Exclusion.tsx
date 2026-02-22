@@ -5,7 +5,7 @@ type Exclusions = {
     description: string
 }
 
-const Exclusion = ({ exclusions , setExclusions }: { exclusions : Exclusions[], setExclusions: React.Dispatch<React.SetStateAction<Exclusions[]>>, editorType: "Blog" | "Package" }) => {
+const Exclusion = ({ exclusions , setExclusions }: { exclusions : Exclusions[], setExclusions: React.Dispatch<React.SetStateAction<Exclusions[]>>, editorType: "Blog" | "Car" }) => {
 
 
     const handleAddExclusions = () => {
