@@ -10,10 +10,10 @@ import TrustConveyorSection from '@/components/Home/TrustOrbitSection'
 import TrustGlowRailSection from '@/components/Home/TrustOrbitSection'
 import TrustElevatorSection from '@/components/Home/TrustOrbitSection'
 import RatingSection from '@/components/ProductArchive/RatingSection'
-
 import Footer from '@/utils/Footer'
 import Navbar from '@/utils/Navbar'
 import React from 'react'
+
 
 const page = () => {
   return (

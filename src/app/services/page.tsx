@@ -3,22 +3,29 @@
 import Footer from "@/utils/Footer";
 import Navbar from "@/utils/Navbar";
 import ServiceSection from "@/components/Services/ServiceSection";
+import { useState } from "react";
+import EnquiryPopup from "@/utils/EnquiryPopUp";
+import ServicesCTA from "@/components/Services/ServicesCTA";
+import Testimonials from "@/components/Services/Testimonials";
 
 
 
 export default function Page() {
+
+  const [isOpen, setIsFromOpen] = useState(false);
  
   return (
     <>
+     <EnquiryPopup open={isOpen} onClose={()=>setIsFromOpen(false)}/>
      <Navbar/>
       <div className="bg-gradient-to-br from-blue-50 to-sky-100">
 
         {/* ================= HERO SECTION ================= */}
-        <section className="py-24 text-center px-6">
-          <h1 className="text-5xl font-bold text-blue-900 mb-6">
+        <section className="py-24 text-center px-6 mt-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-blue-900 mb-3 sm:mb-4 md:mb-6">
             Our Services
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base md:text-lg">
             We provide reliable, safe and comfortable transportation services
             tailored to your needs.
           </p>
@@ -116,19 +123,10 @@ export default function Page() {
 
 
         {/* ================= CTA SECTION ================= */}
-        <section className="py-20 text-center px-6">
-          <div className="bg-gradient-to-r from-blue-700 to-sky-500 rounded-3xl p-12 shadow-2xl text-white max-w-4xl mx-auto transition-all duration-500 hover:shadow-blue-400/40 hover:-translate-y-2 cursor-pointer">
-            <h2 className="text-3xl font-bold mb-4">
-              Ready to Book Your Ride?
-            </h2>
-            <p className="mb-6 text-blue-100">
-              Experience premium comfort and reliable service today.
-            </p>
-            <button className="bg-white text-blue-700 font-semibold px-8 py-3 rounded-xl hover:bg-blue-100 transition">
-              Book Now
-            </button>
-          </div>
-        </section>
+       <ServicesCTA/>
+
+       <Testimonials/>
+
 
       </div>
     <Footer/>

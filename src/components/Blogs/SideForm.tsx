@@ -3,6 +3,8 @@
 import { FloatingInput } from "@/utils/FloatingInput";
 import { FloatingTextarea } from "@/utils/FloatingTextarea";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import emailjs from '@emailjs/browser'
 
 export default function SideForm() {
   const [loading, setLoading] = useState(false);
@@ -12,7 +14,8 @@ export default function SideForm() {
     name: "",
     email: "",
     phone: "",
-    travelDate: "",
+    picup_location: "",
+    drop_location : "",
     travellers: "",
     message: "",
   });
@@ -24,16 +27,61 @@ export default function SideForm() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!form.name || !form.phone || !form.travelDate || !form.travellers) {
-      alert("Please fill all required fields");
-      return;
-    }
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          form_type: "Blog Enquiry Form",
 
-    setLoading(true);
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          pickup_location: form.picup_location,
+          drop_location: form.drop_location,
+          message : form.message,
+          passengers : form.travellers,
+
+          from: "N/A",
+          to: "N/A",
+          departure_date: "N/A",
+          return_date: "N/A",
+          pickup_time: "N/A",
+          drop_time: "N/A",
+          trip_type: "N/A",
+          car_name: "N/A",
+          cab_type: "N/A",
+          fuel_type: "N/A",
+          car_seat: "N/A",
+          car_price: "N/A",
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+
+      console.log("Hello")
+
+
+      toast.success("Enquiry Sent Successfully ");
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        picup_location: "",
+        drop_location : "",
+        travellers: "",
+        message: "",
+      })
+
+
+    } catch (error) {
+      toast.error("Failed to sent mail");
+      console.log("Email Error:", error);
+    }
   };
+
 
   return (
     <div className="w-full max-w-sm z-10">
@@ -80,23 +128,33 @@ export default function SideForm() {
           </div>
 
           {/* Travel Date */}
-          <div className="relative">
-            <input
-              type="date"
-              name="travelDate"
-              value={form.travelDate}
-              onChange={handleChange}
-              required
-              className="peer w-full rounded-xl border border-blue-200 px-4 pt-5 pb-2
-              text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white"
-            />
-            <label
-              className="absolute left-3 top-1 text-xs text-gray-500
-              peer-focus:text-sky-600"
-            >
-              Travel Date *
-            </label>
+         <div className="flex gap-2">
+          <div>
+             
+             <FloatingInput
+                label="Picup Location"
+                name="picup_location"
+                value={form.picup_location}
+                onChange={handleChange}
+                required
+              />
+
           </div>
+
+          <div>
+
+             <FloatingInput
+                label="Drop Location"
+                name="drop_location"
+                value={form.drop_location}
+                onChange={handleChange}
+                required
+              />
+
+          </div>
+             
+             
+         </div>
 
           <FloatingInput
             label="Traveller Count"

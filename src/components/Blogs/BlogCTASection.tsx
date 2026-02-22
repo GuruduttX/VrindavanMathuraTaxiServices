@@ -1,8 +1,14 @@
 "use client";
 
+import EnquiryPopup from "@/utils/EnquiryPopUp";
+import { useState } from "react";
+
 export default function BlogCTASection() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <section className="w-full py-24 bg-gray-100">
+    <>  
+       <EnquiryPopup open={isOpen} onClose={()=>setIsOpen(false)}/>
+       <section className="w-full py-24 bg-gray-100">
       <div className="px-6 lg:px-16">
 
         {/* Rounded Blue Container */}
@@ -40,10 +46,11 @@ export default function BlogCTASection() {
               </p>
 
               <button
+                onClick={()=>setIsOpen(true)}
                 className="mt-10 px-8 py-4 rounded-xl 
                 bg-yellow-400 text-gray-900 font-semibold 
                 shadow-lg transition-all duration-300
-                hover:scale-105 hover:shadow-2xl"
+                hover:scale-105 hover:shadow-2xl cursor-pointer"
               >
                 Enquire Now →
               </button>
@@ -59,5 +66,7 @@ export default function BlogCTASection() {
 
       </div>
     </section>
+    </>
+   
   );
 }

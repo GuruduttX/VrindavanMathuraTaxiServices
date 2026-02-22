@@ -1,3 +1,4 @@
+"use client"
 import { ArrowLeftRight, ChevronDown } from 'lucide-react'
 import React, { useRef, useState } from 'react'
 import CityDropdown from './CityDropDown';
@@ -16,12 +17,15 @@ const OneWayTripFilter = ({ filter, onChange }: any) => {
   const departureRef = useRef<HTMLDivElement>(null);
 
 
+
   const handleSwap = () => {
     const temp = filter.from;
     onChange("from", filter.to);
     onChange("to", temp);
 
   }
+
+  console.log("from value", isFromOpen);
 
 
   return (
@@ -36,7 +40,7 @@ const OneWayTripFilter = ({ filter, onChange }: any) => {
               {/* ================= MOBILE VERSION ================= */}
               <div
                 className="lg:hidden flex items-center justify-between bg-sky-50 border border-sky-200 rounded-xl px-4 py-3 cursor-pointer active:scale-[0.98] transition"
-                onClick={() => setIsFromOpen(true)}
+                onClick={() => setIsFromOpen((prev)=>!prev)}
               >
                 <div className="flex flex-col">
                   <span className="text-xs text-slate-500 uppercase tracking-wide">
