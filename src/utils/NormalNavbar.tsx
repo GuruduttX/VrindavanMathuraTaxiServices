@@ -3,10 +3,16 @@
 import Link from "next/link"
 import { CarTaxiFront } from "lucide-react"
 import Image from "next/image"
+import { useState } from "react";
+import EnquiryPopup from "./EnquiryPopUp";
 
 export default function NormalNavbar() {
+  const [open , setOpen] = useState(false);
+  
   return (
-    <header className="top-5 left-1/2 z-50 w-full">
+    <>
+     <EnquiryPopup open={open} onClose={()=>setOpen(false)}/>
+     <header className="top-5 left-1/2 z-50 w-full">
       <nav className="flex items-center justify-between px-6 py-3 
      shadow-lg border border-sky-100 bg-white">
 
@@ -38,14 +44,18 @@ export default function NormalNavbar() {
         </div>
 
         {/* CTA */}
-        <Link
-          href="/book"
+        <button
+          onClick={()=>setOpen(true)}
           className="px-5 py-2 rounded-full text-sm font-semibold text-white 
-          bg-gradient-to-r from-sky-500 to-cyan-400 hover:opacity-90 transition shadow-md"
+          bg-gradient-to-r from-sky-500 to-cyan-400 hover:opacity-90 transition shadow-m curosr-pointer"
         >
           Book Cab
-        </Link>
+        </button>
       </nav>
     </header>
+    </>
+    
   )
 }
+
+

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import FloatingWhatsApp from "@/utils/FloatingWhatsApp";
 
 
 
@@ -26,6 +27,7 @@ export default function RootLayout({
         className={`${roboto.className} antialiased`}
       >
         {children}
+        <FloatingWhatsApp/>
         <Toaster/>
       </body>
     </html>

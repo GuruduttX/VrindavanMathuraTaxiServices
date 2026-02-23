@@ -1,3 +1,4 @@
+
 import CabCTASection from "@/components/Home/CabCTASection"
 import FiltersPanel from "@/components/ProductArchive/FiltersPanel"
 import ProductClient from "@/components/ProductArchive/ProductClient"
@@ -8,10 +9,34 @@ import Footer from "@/utils/Footer"
 import Navbar from "@/utils/Navbar"
 import NormalNavbar from "@/utils/NormalNavbar"
 import TaxiCTASection from "@/utils/TaxiCTASection"
+import { SearchParams } from "next/dist/server/request/search-params";
+import { redirect } from "next/navigation"
 
 
 
-export default function ProductsPage() {
+
+ type searchParams = {
+    from?: string;
+    to?: string;
+    departure?: string;
+    return?: string;
+    pickup?: string;
+    drop?: string;
+  };
+
+
+
+export default async function ProductsPage({searchParams} : {searchParams : Promise<SearchParams>}) {
+
+    
+  const { from, to, departure, return: returnDate, pickup, drop, type } = await searchParams;
+
+  console.log(from, to, departure, returnDate, pickup, drop );
+   
+  if (!from || !to || !departure || !returnDate || !pickup || !drop || !type) {
+      redirect("/")
+  }
+  
 
     return (
         <>

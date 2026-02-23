@@ -10,6 +10,8 @@ import emailjs from "@emailjs/browser";
 
 export default function ReviewClient() {
   const searchParams = useSearchParams();
+  const [message, setMessage] = useState("");
+  
 
   const [form , setForm] = useState({
     fullName : "",
@@ -23,9 +25,21 @@ export default function ReviewClient() {
       [field]: value
     }))
   }
+  
+  const WHATSAPP = "7302265809"; 
 
+  const handleSendMail = async () => {
 
-    const handleSendMail = async () => {
+   const missingFields = [];
+
+    if (!form.fullName?.trim()) missingFields.push("Full Name");
+    if (!form.phone?.trim()) missingFields.push("Phone");
+    if (!form.email?.trim()) missingFields.push("Email");
+
+    if (missingFields.length > 0) {
+      setMessage(`Please fill: ${missingFields.join(", ")} before booking.`);
+      return;
+    }
       try {
         await emailjs.send(
           process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
@@ -56,9 +70,25 @@ export default function ReviewClient() {
           process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
         );
 
+
+          const whatsappMessage = encodeURIComponent(
+        `New Quick Enquiry \n\nName: ${name}\nPhone: ${form.phone}\n\nPlease contact as soon as possible.`
+      );
+
+      setTimeout(() => {
+        window.open(
+          `https://wa.me/${WHATSAPP}?text=${whatsappMessage}`,
+          "_blank"
+        );
+      }, 600); 
+        
+
         console.log("Email Sent Successfully ");
       } catch (error) {
         console.log("Email Failed ", error);
+      }
+      finally{
+         setMessage("");
       }
     };
 
@@ -68,8 +98,11 @@ export default function ReviewClient() {
 
       <section className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100">
         <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <LeftCabReview onChange={updateForm}/>
-          <RightCabSection send={handleSendMail} price={searchParams.get("carprice")}/>
+
+            <LeftCabReview onChange={updateForm}/>
+            <RightCabSection send={handleSendMail} price={searchParams.get("carprice")} message={message}/>
+
+         
         </div>
       </section>
 

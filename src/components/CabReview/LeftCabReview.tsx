@@ -124,12 +124,13 @@ const LeftCabReview = ({ onChange }: any) => {
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input placeholder="Full Name" className="input-sky" onChange={(e) => { onChange("fullName", e.target.value) }} />
-          <input placeholder="Mobile Number" className="input-sky" onChange={(e) => { onChange("phone", e.target.value) }} />
+          <input placeholder="Full Name" className="input-sky " required onChange={(e) => { onChange("fullName", e.target.value) }} />
+          <input placeholder="Mobile Number" className="input-sky" required onChange={(e) => { onChange("phone", e.target.value) }} />
           <input
             placeholder="Email Address"
             className="input-sky md:col-span-2"
             onChange={(e) => { onChange("email", e.target.value) }}
+            required
           />
         </div>
       </section>

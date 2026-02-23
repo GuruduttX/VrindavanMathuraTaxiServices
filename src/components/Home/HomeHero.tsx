@@ -23,7 +23,7 @@ export default function HomeHero() {
         departure: Currentdate,
         return: Currentdate,
         pickup: "10:00 AM",
-        drop: "9:45 AM",
+        drop: "9:45 PM",
         type: "oneway"
     });
 
