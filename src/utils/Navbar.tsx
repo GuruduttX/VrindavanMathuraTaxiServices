@@ -35,14 +35,13 @@ export default function Navbar() {
             <Link href="/" className="text-sky-600 font-semibold">Home</Link>
             <Link href="/about" className="hover:text-sky-600 transition">About</Link>
             <Link href="/services" className="hover:text-sky-600 transition">Services</Link>
-            <Link href="/routes" className="hover:text-sky-600 transition">Routes</Link>
-            <Link href="/contact" className="hover:text-sky-600 transition">Contact</Link>
+            
           </div>
 
           {/* ================= CTA BUTTON ================= */}
           <button
             className="hidden md:block px-5 py-2 rounded-full text-sm font-semibold text-white 
-            bg-gradient-to-r from-sky-500 to-cyan-400 hover:opacity-90 transition shadow-md"
+            bg-gradient-to-r from-sky-500 to-cyan-400 hover:opacity-90 transition shadow-md cursor-pointer"
             onClick={() => setIsOpen(true)}
           >
             Book Cab
@@ -89,21 +88,7 @@ export default function Navbar() {
                   Services
                 </Link>
 
-                <Link
-                  href="/routes"
-                  className="px-6 py-4 bg-gray-200 hover:bg-sky-50"
-                  onClick={() => setOpenDropDown(false)}
-                >
-                  Routes
-                </Link>
-
-                <Link
-                  href="/contact"
-                  className="px-6 py-4 hover:bg-sky-50"
-                  onClick={() => setOpenDropDown(false)}
-                >
-                  Contact
-                </Link>
+                
 
                 {/* Mobile CTA */}
                 <button

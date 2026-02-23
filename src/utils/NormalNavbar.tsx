@@ -34,12 +34,7 @@ export default function NormalNavbar() {
           <Link href="/services" className="hover:text-sky-600 transition">
             Services
           </Link>
-          <Link href="/routes" className="hover:text-sky-600 transition">
-            Routes
-          </Link>
-          <Link href="/contact" className="hover:text-sky-600 transition">
-            Contact
-          </Link>
+         
         </div>
 
         {/* CTA */}

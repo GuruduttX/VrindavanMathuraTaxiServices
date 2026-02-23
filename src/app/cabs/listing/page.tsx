@@ -11,14 +11,7 @@ import TaxiCTASection from "@/utils/TaxiCTASection"
 
 
 
-
-
-
-
 export default function ProductsPage() {
-
-
-   
 
     return (
         <>

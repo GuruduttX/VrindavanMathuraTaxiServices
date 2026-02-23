@@ -20,10 +20,8 @@ export default function EnquiryPopup({ open, onClose }: Props) {
     drop_location: "",
     travel_date: "",
     passengers: "",
-    message : ""
+    message: "",
   });
-
-
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "auto";
@@ -31,9 +29,11 @@ export default function EnquiryPopup({ open, onClose }: Props) {
     else setVisible(false);
   }, [open]);
 
-  const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
-      setForm({...form, [e.target.name] : e.target.value});
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,8 +50,8 @@ export default function EnquiryPopup({ open, onClose }: Props) {
           phone: form.phone,
           pickup_location: form.pickup_location,
           drop_location: form.drop_location,
-          message : form.message,
-          passengers : form.passengers,
+          message: form.message,
+          passengers: form.passengers,
 
           from: "N/A",
           to: "N/A",
@@ -69,29 +69,23 @@ export default function EnquiryPopup({ open, onClose }: Props) {
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
 
-      console.log("Good");
-
       toast.success("Enquiry Sent Successfully ");
       onClose();
-
     } catch (error) {
       toast.error("Failed to sent mail");
       console.log("Email Error:", error);
     }
   };
 
-
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-end md:items-center justify-center">
-      {/* BACKDROP */}
       <div
         onClick={onClose}
         className="absolute inset-0 bg-sky-950/70 backdrop-blur-md"
       />
 
-      {/* MODAL WRAPPER */}
       <div
         className={`
           relative w-full max-w-full md:max-w-6xl
@@ -110,7 +104,6 @@ export default function EnquiryPopup({ open, onClose }: Props) {
             h-full md:h-auto
           "
         >
-          {/* CLOSE BUTTON */}
           <button
             onClick={onClose}
             className="absolute cursor-pointer top-4 right-4 z-20 bg-white p-2 rounded-full shadow hover:rotate-90 transition"
@@ -118,7 +111,6 @@ export default function EnquiryPopup({ open, onClose }: Props) {
             <X size={18} />
           </button>
 
-          {/* LEFT PANEL – DESKTOP ONLY */}
           <div className="hidden md:flex bg-gradient-to-br from-sky-400 to-blue-600 p-10 text-white flex-col justify-between">
             <div>
               <h2 className="text-3xl font-bold leading-tight">
@@ -131,7 +123,6 @@ export default function EnquiryPopup({ open, onClose }: Props) {
                 travel needs.
               </p>
 
-              {/* ROUTE */}
               <div className="mt-8 flex items-center gap-4">
                 <RoutePoint label="Pickup" />
                 <div className="flex-1 h-[2px] bg-white/40" />
@@ -139,7 +130,6 @@ export default function EnquiryPopup({ open, onClose }: Props) {
               </div>
             </div>
 
-            {/* TRUST STATS */}
             <div className="grid grid-cols-3 gap-4 text-xs mt-10">
               <MicroStat title="5,000+" desc="Happy Riders" />
               <MicroStat title="2 min" desc="Callback" />
@@ -147,7 +137,6 @@ export default function EnquiryPopup({ open, onClose }: Props) {
             </div>
           </div>
 
-          {/* RIGHT PANEL – FORM (SCROLLABLE ON MOBILE) */}
           <form
             className="
               w-full
@@ -159,86 +148,64 @@ export default function EnquiryPopup({ open, onClose }: Props) {
             "
             onSubmit={handleSubmit}
           >
-
-            <div className="flex gap-6">
+            <div className="relative flex gap-6">
+              <Input
+                label="Name"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+              />
 
               <Input
-              label="Name"
-              name="name"
-              value={form.name}
+                label="Email"
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="relative flex gap-6">
+              <Input
+                label="Phone"
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+              />
+
+              <Input
+                label="Passengers"
+                name="passengers"
+                value={form.passengers}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="relative flex gap-6">
+              <Input
+                label="Pickup Location"
+                name="pickup_location"
+                value={form.pickup_location}
+                onChange={handleChange}
+                icon={<MapPin size={16} />}
+              />
+
+              <Input
+                label="Drop Location"
+                name="drop_location"
+                value={form.drop_location}
+                onChange={handleChange}
+                icon={<MapPin size={16} />}
+              />
+            </div>
+
+            <Input
+              label="Travel Date"
+              type="date"
+              name="travel_date"
+              value={form.travel_date}
               onChange={handleChange}
-          />
-
-             <Input
-              label="Email"
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-          />
-
-           </div>
-        
-            
-
-          <div className="flex gap-6">
-
-          
-
-          <Input
-            label="Phone"
-            name="phone"
-            value={form.phone}
-            onChange={handleChange}
-            
-          />
-
-            <Input
-            label="Passengers"
-            name="passengers"
-            value={form.passengers}
-            onChange={handleChange}
-          />
-
-
-          </div>
-
-          
-          <div className="flex gap-6">
-            <Input
-            label="Pickup Location"
-            name="pickup_location"
-            value={form.pickup_location}
-            onChange={handleChange}
-            icon={<MapPin size={16} />}
-          />
-
-          <Input
-            label="Drop Location"
-            name="drop_location"
-            value={form.drop_location}
-            onChange={handleChange}
-            icon={<MapPin size={16} />}
-          />
-
-          </div>
-
-
-
-            <Input
-            label="Travel Date"
-            type="date"
-            name="travel_date"
-            value={form.travel_date}
-            onChange={handleChange}
-          />
-
-         
-
-          
-
-          
-
+            />
 
             <textarea
               className="
@@ -258,7 +225,6 @@ export default function EnquiryPopup({ open, onClose }: Props) {
               placeholder="Special needs, night travel, senior citizens, etc."
             />
 
-            {/* CTA */}
             <div className="flex flex-col gap-3 pt-3">
               <button
                 type="submit"
@@ -307,8 +273,6 @@ export default function EnquiryPopup({ open, onClose }: Props) {
   );
 }
 
-/* ---------------- SMALL COMPONENTS ---------------- */
-
 function RoutePoint({ label }: { label: string }) {
   return (
     <div className="flex flex-col items-center gap-1">
@@ -343,7 +307,7 @@ function Input({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
-    <div className="relative">
+    <div className="relative flex-1"> {/* ✅ FIXED HERE */}
       {icon && (
         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
           {icon}
@@ -356,11 +320,9 @@ function Input({
         placeholder={label}
         value={value}
         onChange={onChange}
-        className={`w-full h-[52px] rounded-2xl border border-gray-200 px-4 ${
-          icon ? "pl-11" : ""
-        } text-sm focus:ring-2 focus:ring-sky-400 outline-none`}
+        className={`w-full h-[52px] rounded-2xl border border-gray-200 px-4 ${icon ? "pl-11" : ""
+          } text-sm focus:ring-2 focus:ring-sky-400 outline-none`}
       />
     </div>
   );
 }
-
