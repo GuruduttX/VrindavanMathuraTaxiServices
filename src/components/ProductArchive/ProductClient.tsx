@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useMemo, useState } from "react"
+import React, { Suspense, useEffect, useMemo, useState } from "react"
 import FiltersPanel from "./FiltersPanel"
 import ProductsList from "./ProductList"
 import { supabase } from "@/lib/supabase/SupabaseConfig"
@@ -99,7 +99,9 @@ const ProductClient = () => {
 
         {/* RIGHT PRODUCTS */}
         <main className="col-span-12 md:col-span-9 lg:col-span-9 pb-10">
-          <ProductsList cars={filteredCars} />
+          <Suspense>
+            <ProductsList cars={filteredCars} />
+          </Suspense>
         </main>
 
       </div>
