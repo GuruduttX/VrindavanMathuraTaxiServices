@@ -97,7 +97,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10">
           <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white">
-            <p className="text-black">
+            <p className="text-white">
               © {new Date().getFullYear()} MV Taxi Services. All rights reserved.
             </p>
 

@@ -29,6 +29,16 @@ export default function ProductsList({cars} : {cars : Car[]}) {
   const router = useRouter();
   const searchParams  = useSearchParams();
 
+  useEffect(()=>{
+    if(!searchParams.get('from') || !searchParams.get('to') || !searchParams.get('departure') ||
+     !searchParams.get('return') || !searchParams.get('pickup') ||
+      !searchParams.get('drop')){
+         router.push('/');
+         return;
+      }
+
+  },[router, searchParams]);
+
 
 
   const handleSelect = ( id : string, name : string , cabtype : string, fueltype: string , seat : string , price : string ) => {

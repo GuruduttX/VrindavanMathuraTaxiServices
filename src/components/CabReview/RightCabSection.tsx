@@ -1,6 +1,6 @@
 import React from 'react'
 
-const RightCabSection = ({price,send} : any) => {
+const RightCabSection = ({price,send , message} : {price : any , send : ()=>void , message : string}) => {
     return (
 
         <div className="lg:col-span-4">
@@ -30,13 +30,20 @@ const RightCabSection = ({price,send} : any) => {
                         <span>₹{price} * Distnace we travel</span>
                     </div>
 
-                    <button className="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 text-white font-medium hover:opacity-90 transition cursor-pointer" onClick={()=> {send()}}>
+                    <button onClick={send}  className="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 text-white font-medium hover:opacity-90 transition cursor-pointer">
                         Confirm Booking
                     </button>
 
                     <p className="text-xs text-sky-500 text-center mt-3">
                         Safe & Secure Payments
                     </p>
+
+                   { message &&
+                      <p className='text-sm text-red-500 mt-6'>
+                         {message}
+                     </p> 
+
+                    } 
                 </div>
 
             </div>
