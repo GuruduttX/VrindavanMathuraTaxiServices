@@ -48,16 +48,10 @@ export default function ServicesCTA() {
           </div>
 
           {/* RIGHT SIDE IMAGE */}
-          <div className="relative w-full lg:w-1/2 h-[260px] sm:h-[320px] md:h-[400px] lg:h-auto">
+          <div className="hidden lg:block relative w-full lg:w-1/2 h-[260px] sm:h-[320px] md:h-[400px] lg:h-auto">
 
             {/* Mobile → normal image */}
-            <div className="block lg:hidden w-full h-full">
-              <img
-                src="/images/About/About-Hero.webp"
-                alt="CTA"
-                className="w-full h-full object-cover"
-              />
-            </div>
+            
 
             {/* Desktop → polygon cut */}
             <div

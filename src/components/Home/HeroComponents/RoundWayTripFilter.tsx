@@ -67,7 +67,7 @@ const RoundWayTripFilter = ({ filter, onChange }: any) => {
           </div>
 
           {/* ================= SWAP ================= */}
-          <div className="col-span-1 flex justify-center my-3 lg:my-0">
+          <div className="col-span-1 flex justify-center my-1 lg:my-0">
             <button
               className="w-10 h-10 rounded-full bg-white border border-sky-200 flex items-center justify-center shadow hover:bg-sky-50 transition"
               onClick={handleSwap}
@@ -232,7 +232,7 @@ const RoundWayTripFilter = ({ filter, onChange }: any) => {
           </div>
 
           {/* ================= DROP ================= */}
-          <div className="col-span-2 relative">
+          <div className="col-span-2 relative py-3 md:py-0">
 
             {/* MOBILE */}
             <div className="lg:hidden flex items-center justify-between bg-sky-50 border border-sky-200 rounded-xl px-4 py-3">

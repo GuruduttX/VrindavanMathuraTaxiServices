@@ -19,39 +19,39 @@ export default function Dashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  //  useEffect(() => {
-  //   const checkAdmin = async () => {
+   useEffect(() => {
+    const checkAdmin = async () => {
 
-  //     const { data, error } = await supabase.auth.getSession();
+      const { data, error } = await supabase.auth.getSession();
 
-  //     if (error) {
-  //       console.log(error);
-  //       toast.error("Session error");
-  //       router.replace('/admin-login');
-  //       return;
-  //     }
+      if (error) {
+        console.log(error);
+        toast.error("Session error");
+        router.replace('/admin-login');
+        return;
+      }
 
-  //     const session = data.session;
+      const session = data.session;
 
-  //     if (!session) {
-  //       toast.error("Please login first");
-  //       router.replace('/admin-login');
-  //       return;
-  //     }
+      if (!session) {
+        toast.error("Please login first");
+        router.replace('/admin-login');
+        return;
+      }
 
-  //     if (session.user.email !== process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
-  //       toast.error("Unauthorized access");
-  //       await supabase.auth.signOut();
-  //       router.replace('/');
-  //       return;
-  //     }
+      if (session.user.email !== process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
+        toast.error("Unauthorized access");
+        await supabase.auth.signOut();
+        router.replace('/');
+        return;
+      }
 
-  //     setLoading(false);
-  //   };
+      setLoading(false);
+    };
 
-  //   checkAdmin();
+    checkAdmin();
 
-  // }, [router]);
+  }, [router]);
 
   return (
     <>

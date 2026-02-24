@@ -26,7 +26,7 @@ const HourlyTripFilter = () => {
         </div>
 
         {/* ================= SWAP ================= */}
-        <div className="col-span-1 flex justify-center my-3 lg:my-0">
+        <div className="col-span-1 flex justify-center my-1 lg:my-0">
           <button className="w-10 h-10 rounded-full bg-white border border-sky-200 flex items-center justify-center shadow hover:bg-sky-50 transition">
             <ArrowLeftRight className="w-5 h-5 text-sky-600" />
           </button>
@@ -136,7 +136,7 @@ const HourlyTripFilter = () => {
 
 
         {/* ================= DROP ================= */}
-        <div className="col-span-2">
+        <div className="col-span-2 py-2 md:py-0">
 
           {/* MOBILE */}
           <div className="lg:hidden flex items-center justify-between bg-sky-50 border border-sky-200 rounded-xl px-4 py-3 mb-2">
