@@ -27,7 +27,7 @@ export default function Sidebar() {
     }
 
     return (
-        <aside className="w-64 h-[97vh] bg-[#00a8fd] border-r border-white/10 p-4 rounded-3xl shadow-sm shadow-indigo-300 hover:shadow-xl hover:shadow-indigo-400 cursor-pointer transition fixed">
+        <aside className="w-64 h-[97vh] bg-[#0f172a] border-r border-white/10 p-4 rounded-3xl shadow-sm shadow-indigo-300 hover:shadow-xl hover:shadow-indigo-400 cursor-pointer transition fixed">
            <div className="flex gap-1 bg-white rounded-full mb-4">
             <img src="/Experience_my_India.webp" className="h-[50px]"/>
             
