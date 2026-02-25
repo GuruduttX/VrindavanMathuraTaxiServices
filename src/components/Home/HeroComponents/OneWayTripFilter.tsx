@@ -93,7 +93,7 @@ const OneWayTripFilter = ({ filter, onChange }: any) => {
         </div>
 
         {/* SWAP */}
-        <div className="col-span-1 flex justify-center">
+        <div className="col-span-1 flex justify-center my-1 lg:my-0">
           <button className="w-10 h-10 rounded-full bg-white border border-sky-200 flex items-center justify-center shadow hover:bg-sky-50 transition cursor-pointer" onClick={handleSwap}>
             <ArrowLeftRight className="w-5 h-5 text-sky-600" />
           </button>

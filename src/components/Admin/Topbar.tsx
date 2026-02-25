@@ -8,7 +8,7 @@ export default function Topbar() {
 
     const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push("/admin-login");
+      router.push("/admin-login");
   };
 
     return (
